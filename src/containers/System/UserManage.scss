@@ -1,0 +1,95 @@
+.users-container {
+  .users-table {
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #customers td,
+    #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+      background-color: #ddd;
+    }
+
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04aa6d;
+      color: white;
+    }
+  }
+}
+
+.btn {
+  font-size: 14px;
+  padding: 8px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+}
+
+.user-edit {
+  color: rgb(0, 189, 0);
+
+  &:hover {
+    color: rgb(0, 189, 0);
+    border: 1px solid rgb(0, 189, 0);
+  }
+}
+
+.user-delete {
+  color: rgb(253, 57, 57);
+
+  &:hover {
+    color: rgb(253, 57, 57);
+    border: 1px solid rgb(253, 57, 57);
+  }
+}
+
+.user-modal {
+  .modal-content {
+    width: 600px !important;
+  }
+  .modal-header {
+    button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+    }
+  }
+  .user-modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      width: 48%;
+
+      &.max-w-input {
+        width: calc(96% + 10px);
+      }
+
+      input,
+      select {
+        border-radius: 3px;
+        border: 1px solid grey;
+        height: 30px;
+        outline: none;
+        padding: 0 10px;
+      }
+    }
+  }
+}
