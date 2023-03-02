@@ -3,14 +3,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FaHeadSideVirus, FaTooth, FaMicroscope } from 'react-icons/fa'
 import { FormattedMessage } from 'react-intl'
+import { LANGUAGES } from '../../utils'
+import { changeLanguageApp } from '../../store/actions'
 import './HomeHeader.scss'
 
 class HomeHeader extends Component {
+  handleChangeLanguage(language) {
+    this.props.dispatchChangeLanguage(language)
+  }
   render() {
-    console.log(this.props)
-    // const { isLoggedIn } = this.props
-    // let linkToRedirect = isLoggedIn ? '/system/user-manage' : '/login'
-
     return (
       <>
         <div className="home-header-container">
@@ -66,7 +67,20 @@ class HomeHeader extends Component {
                 <i className="fas fa-question"></i>
                 <div>Hỗ trợ</div>
               </div>
-              <div className="flags">VN</div>
+              <div className="flags">
+                <span
+                  className={`${this.props.language === 'vi' && 'active'}`}
+                  onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}
+                >
+                  VN
+                </span>
+                <span
+                  className={`${this.props.language === 'en' && 'active'}`}
+                  onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
+                >
+                  EN
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -83,7 +97,7 @@ class HomeHeader extends Component {
               </div>
               <div className="search">
                 <i className="fas fa-search"></i>
-                <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+                <input type="text" placeholder="Search - Tìm kiếm..." />
               </div>
             </div>
             <div className="below">
@@ -153,7 +167,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    dispatchChangeLanguage: (language) => dispatch(changeLanguageApp(language)),
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
