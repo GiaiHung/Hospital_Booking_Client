@@ -16,8 +16,10 @@ import Home from '../routes/Home'
 import Login from './Auth/Login'
 import Header from './Header/Header'
 import System from '../routes/System'
+import './App.scss'
 
 import { CustomToastCloseButton } from '../components/CustomToast'
+import CustomScrollbars from '../components/CustomScrollbars'
 import HomePage from './HomePage/HomePage'
 
 class App extends Component {
@@ -46,20 +48,22 @@ class App extends Component {
           <div className="main-container">
             {this.props.isLoggedIn && <Header />}
 
-            <span className="content-container">
-              <Switch>
-                <Route path={path.HOME} exact component={Home} />
-                <Route path={path.HOMEPAGE} exact component={HomePage} />
-                <Route
-                  path={path.LOGIN}
-                  component={userIsNotAuthenticated(Login)}
-                />
-                <Route
-                  path={path.SYSTEM}
-                  component={userIsAuthenticated(System)}
-                />
-              </Switch>
-            </span>
+            <div className="content-container">
+              <CustomScrollbars style={{ height: '100vh', width: '100%' }}>
+                <Switch>
+                  <Route path={path.HOME} exact component={Home} />
+                  <Route path={path.HOMEPAGE} exact component={HomePage} />
+                  <Route
+                    path={path.LOGIN}
+                    component={userIsNotAuthenticated(Login)}
+                  />
+                  <Route
+                    path={path.SYSTEM}
+                    component={userIsAuthenticated(System)}
+                  />
+                </Switch>
+              </CustomScrollbars>
+            </div>
 
             <ToastContainer
               className="toast-container"

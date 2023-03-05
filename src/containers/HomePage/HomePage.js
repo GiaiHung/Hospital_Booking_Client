@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import HomeHeader from './HomeHeader'
 import './HomePage.scss'
+import Specialty from './Session/Specialty'
 
 class Home extends Component {
   render() {
@@ -12,6 +13,7 @@ class Home extends Component {
     return (
       <div>
         <HomeHeader />
+        <Specialty />
       </div>
     )
   }

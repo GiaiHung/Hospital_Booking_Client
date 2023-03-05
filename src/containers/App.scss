@@ -1,1 +1,11 @@
-@import "../styles/common.scss";
+@import '../styles/common.scss';
+
+::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.main-container {
+  overflow: scroll;
+}
