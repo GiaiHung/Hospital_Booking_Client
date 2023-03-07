@@ -1,0 +1,160 @@
+.section-share-container {
+  &.section-background {
+    background-color: #f5f5f5;
+  }
+
+  .section-share {
+    height: fit-content;
+    margin: 0 100px;
+    padding: 10px 0;
+
+    .section-content {
+      display: flex;
+      flex-direction: column;
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 25px;
+
+        span {
+          font-weight: 600;
+          font-size: 24px;
+        }
+
+        button {
+          background: #ebebeb;
+          text-transform: uppercase;
+          display: inline-block;
+          padding: 10px 15px;
+          color: #282e41;
+          border: none;
+          outline: none;
+
+          &:hover {
+            cursor: pointer;
+            color: #fff;
+            background: #f7d800;
+          }
+        }
+      }
+
+      .body {
+        .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 10px;
+          box-shadow: none;
+          -webkit-box-shadow: none;
+          margin: 0 !important;
+
+          &.padding {
+            padding-right: 10px;
+          }
+
+          .customize-border {
+            border: 1px solid gray;
+          }
+
+          .img {
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-color: #eee;
+            width: 280px;
+            height: 160px;
+            margin-bottom: 10px;
+
+            &.specialty-img {
+              background-image: url('../../assets/specialty/co-xuong-khop.jpg');
+            }
+
+            &.facility-img {
+              background-image: url('../../assets/facility/pham-ngoc-thach.jpg');
+            }
+
+            &.outstanding-doctor-img {
+              background-image: url('../../assets/doctor/doctor-1.jpg');
+              width: 120px;
+              height: 120px;
+              margin: 10px auto;
+              border-radius: 100%;
+            }
+
+            &.handbook-img {
+              background-image: url('../../assets/handbook/co-so.png');
+            }
+          }
+
+          h3,
+          p {
+            text-align: center;
+          }
+        }
+
+        &.about {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          padding-bottom: 20px;
+
+          .about-body-right {
+            width: 50%;
+
+            p {
+              font-style: italic;
+              font-size: 16px;
+            }
+          }
+
+          .about-body-left {
+            flex-shrink: 0;
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Arrow Slick Customs
+.slick-prev {
+  left: -15px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: 2px solid #d7d7d7 !important;
+  background: white !important;
+  z-index: 10;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #fdeded !important;
+    opacity: 1;
+  }
+}
+
+.slick-next {
+  right: -15px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: 2px solid #d7d7d7 !important;
+  background: white !important;
+  z-index: 10;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #fdfdfd !important;
+    opacity: 1;
+  }
+}
+
+.slick-next:before,
+.slick-prev:before {
+  font-family: FontAwesome !important;
+  color: gray !important;
+  // content: '\f060' !important;
+}
