@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import axios from '../../../axios'
+import { fetchGenderStart } from '../../../store/actions'
 import { LANGUAGES } from '../../../utils/constant'
 import './UserRedux.scss'
 
@@ -14,10 +14,13 @@ class UserRedux extends Component {
   }
 
   async componentDidMount() {
-    const res = await axios.get('/api/v1/allcode?type=gender')
-    if (res.data.status === 'success') {
+    this.props.getGenderStart()
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.gendersRedux !== this.props.gendersRedux) {
       this.setState({
-        genderArr: res.data.data,
+        genderArr: this.props.gendersRedux,
       })
     }
   }
@@ -151,11 +154,14 @@ class UserRedux extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    gendersRedux: state.admin.genders,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    getGenderStart: () => dispatch(fetchGenderStart()),
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux)
