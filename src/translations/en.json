@@ -59,6 +59,7 @@
     "address": "Address",
     "role-id": "Role ID",
     "image": "Image",
-    "save": "Save"
+    "save": "Save",
+    "preview-image-upload": "Upload"
   }
 }
