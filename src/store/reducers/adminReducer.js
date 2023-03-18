@@ -25,7 +25,7 @@ const adminReducer = (state = initialState, action) => {
       copyState.isLoading = false
       copyState.genders = []
       return {
-        ...state,
+        ...copyState,
       }
     // POSITION
     case actionTypes.FETCH_POSITION_SUCCESS:
@@ -38,7 +38,7 @@ const adminReducer = (state = initialState, action) => {
       copyState.isLoading = false
       copyState.positions = []
       return {
-        ...state,
+        ...copyState,
       }
     // ROLE
     case actionTypes.FETCH_ROLE_SUCCESS:
@@ -51,8 +51,15 @@ const adminReducer = (state = initialState, action) => {
       copyState.isLoading = false
       copyState.roles = []
       return {
-        ...state,
+        ...copyState,
       }
+    // CREATE USER
+    case actionTypes.CREATE_USER_SUCCESS:
+      console.log('Hello create user success')
+      return state
+    case actionTypes.CREATE_USER_FAILED:
+      console.log('Hello create user failed')
+      return state
     default:
       console.log('Hello default')
       return state

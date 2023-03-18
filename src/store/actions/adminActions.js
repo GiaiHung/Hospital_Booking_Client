@@ -84,4 +84,28 @@ const fetchRoleFailed = () => ({
   type: actionTypes.FETCH_ROLE_FAILED,
 })
 
-export { fetchReduxData }
+const createUserSuccess = () => ({
+  type: actionTypes.CREATE_USER_SUCCESS,
+})
+
+const createUserFailed = () => ({
+  type: actionTypes.CREATE_USER_FAILED,
+})
+
+const createUser = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.post('/api/v1/users', data)
+      if (res.data.status === 'success') {
+        dispatch(createUserSuccess())
+      } else {
+        dispatch(createUserFailed())
+      }
+    } catch (error) {
+      dispatch(createUserFailed())
+      console.log(error)
+    }
+  }
+}
+
+export { fetchReduxData, createUser }
