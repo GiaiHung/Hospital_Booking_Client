@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import actionTypes from './actionTypes'
 import axios from '../../axios'
 
@@ -92,20 +93,65 @@ const createUserFailed = () => ({
   type: actionTypes.CREATE_USER_FAILED,
 })
 
+const getUsersSuccess = (data) => ({
+  type: actionTypes.GET_USERS_SUCCESS,
+  data,
+})
+
+const getUsersFailed = () => ({
+  type: actionTypes.GET_USER_FAILED,
+})
+
+const deleteUserSuccess = () => ({
+  type: actionTypes.DELETE_USER_SUCCESS,
+})
+
+const deleteUserFailed = () => ({
+  type: actionTypes.DELETE_USER_FAILED,
+})
+
 const createUser = (data) => {
   return async (dispatch, getState) => {
     try {
       const res = await axios.post('/api/v1/users', data)
       if (res.data.status === 'success') {
         dispatch(createUserSuccess())
-      } else {
-        dispatch(createUserFailed())
+        toast.success('New user added successfully')
       }
     } catch (error) {
       dispatch(createUserFailed())
-      console.log(error)
+      toast.error('Error: ' + error.response.data.message)
     }
   }
 }
 
-export { fetchReduxData, createUser }
+const getAllUsers = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.get('/api/v1/users')
+      if (res.data.status === 'success') {
+        dispatch(getUsersSuccess(res.data.data.reverse()))
+      }
+    } catch (error) {
+      toast.error('Error: ' + error.response.data.message)
+      dispatch(getUsersFailed())
+    }
+  }
+}
+
+const deleteUser = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.delete(`/api/v1/users/${id}`)
+      if (res.data.status === 'success') {
+        dispatch(deleteUserSuccess())
+        toast.warning('User has been deleted successfully')
+      }
+    } catch (error) {
+      toast.error('Error: ' + error.response.data.message)
+      dispatch(deleteUserFailed())
+    }
+  }
+}
+
+export { fetchReduxData, createUser, getAllUsers, deleteUser }

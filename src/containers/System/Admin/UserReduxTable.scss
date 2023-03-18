@@ -1,0 +1,54 @@
+.user-redux-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.user-redux-table td,
+.user-redux-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center !important;
+}
+
+.user-redux-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-redux-table tr:hover {
+  background-color: #ddd;
+}
+
+.btn {
+  font-size: 14px;
+  padding: 8px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+}
+
+.user-edit {
+  color: rgb(0, 189, 0);
+
+  &:hover {
+    color: rgb(0, 189, 0);
+    border: 1px solid rgb(0, 189, 0);
+  }
+}
+
+.user-delete {
+  color: rgb(253, 57, 57);
+
+  &:hover {
+    color: rgb(253, 57, 57);
+    border: 1px solid rgb(253, 57, 57);
+  }
+}
+
+.user-redux-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}

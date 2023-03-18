@@ -5,6 +5,7 @@ const initialState = {
   genders: [],
   roles: [],
   positions: [],
+  users: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -53,13 +54,18 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...copyState,
       }
-    // CREATE USER
+    // CRUD USER
     case actionTypes.CREATE_USER_SUCCESS:
-      console.log('Hello create user success')
       return state
     case actionTypes.CREATE_USER_FAILED:
       console.log('Hello create user failed')
       return state
+    case actionTypes.GET_USERS_SUCCESS:
+      state.users = action.data
+      return { ...state }
+    case actionTypes.GET_USER_FAILED:
+      state.users = []
+      return { ...state }
     default:
       console.log('Hello default')
       return state

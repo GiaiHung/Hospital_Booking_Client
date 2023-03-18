@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { FaUpload } from 'react-icons/fa'
 import Lightbox from 'react-image-lightbox'
-import { createUser, fetchReduxData } from '../../../store/actions'
+import { getAllUsers, createUser, fetchReduxData } from '../../../store/actions'
 import { LANGUAGES } from '../../../utils/constant'
 import './UserRedux.scss'
 import 'react-image-lightbox/style.css'
+import UserReduxTable from './UserReduxTable'
 
 class UserRedux extends Component {
   constructor(props) {
@@ -129,6 +130,20 @@ class UserRedux extends Component {
       positionId,
       roleId,
       gender,
+    })
+
+    await this.props.getAllUsers()
+    this.setState({
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      phonenumber: '',
+      address: '',
+      positionId: '',
+      roleId: '',
+      image: '',
+      gender: '',
     })
   }
 
@@ -345,6 +360,7 @@ class UserRedux extends Component {
             </div>
           </div>
         </div>
+        <UserReduxTable />
         {this.state.isOpen && (
           <Lightbox
             mainSrc={this.state.previewImageUrl}
@@ -371,6 +387,7 @@ const mapDispatchToProps = (dispatch) => {
     getPosition: () => dispatch(fetchReduxData('position')),
     getRole: () => dispatch(fetchReduxData('role')),
     createUser: (data) => dispatch(createUser(data)),
+    getAllUsers: () => dispatch(getAllUsers()),
   }
 }
 
