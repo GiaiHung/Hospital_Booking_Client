@@ -60,6 +60,7 @@
     "role-id": "Role ID",
     "image": "Image",
     "save": "Save",
+    "edit": "Edit user",
     "preview-image-upload": "Upload"
   }
 }

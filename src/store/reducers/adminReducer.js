@@ -56,9 +56,16 @@ const adminReducer = (state = initialState, action) => {
       }
     // CRUD USER
     case actionTypes.CREATE_USER_SUCCESS:
+      console.log('Hello create user success')
       return state
     case actionTypes.CREATE_USER_FAILED:
       console.log('Hello create user failed')
+      return state
+    case actionTypes.EDIT_USER_SUCCESS:
+      console.log('Hello edit user success')
+      return state
+    case actionTypes.EDIT_USER_FAILED:
+      console.log('Hello edit user failed')
       return state
     case actionTypes.GET_USERS_SUCCESS:
       state.users = action.data

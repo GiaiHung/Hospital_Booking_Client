@@ -3,8 +3,14 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { FaUpload } from 'react-icons/fa'
 import Lightbox from 'react-image-lightbox'
-import { getAllUsers, createUser, fetchReduxData } from '../../../store/actions'
-import { LANGUAGES } from '../../../utils/constant'
+import {
+  getAllUsers,
+  createUser,
+  fetchReduxData,
+  editUser,
+} from '../../../store/actions'
+import { LANGUAGES, USER_REDUX_ACTIONS } from '../../../utils/constant'
+import { CommonUtils } from '../../../utils'
 import './UserRedux.scss'
 import 'react-image-lightbox/style.css'
 import UserReduxTable from './UserReduxTable'
@@ -30,6 +36,8 @@ class UserRedux extends Component {
       roleId: '',
       image: '',
       gender: '',
+      current_action: USER_REDUX_ACTIONS.CREATE,
+      user_edit_id: '',
     }
   }
 
@@ -63,14 +71,15 @@ class UserRedux extends Component {
     }
   }
 
-  handleUploadImage(e) {
+  async handleUploadImage(e) {
     const file = e.target.files[0]
 
     if (file) {
       const objectUrl = URL.createObjectURL(file)
+      const base64 = await CommonUtils.getBase64(file)
       this.setState({
         previewImageUrl: objectUrl,
-        image: file,
+        image: base64,
       })
     }
   }
@@ -119,20 +128,42 @@ class UserRedux extends Component {
       positionId,
       roleId,
       gender,
+      image,
+      user_edit_id,
     } = this.state
-    await this.props.createUser({
-      email,
-      password,
-      firstName,
-      lastName,
-      phonenumber,
-      address,
-      positionId,
-      roleId,
-      gender,
-    })
 
-    await this.props.getAllUsers()
+    if (this.state.current_action === USER_REDUX_ACTIONS.CREATE) {
+      await this.props.createUser({
+        email,
+        password,
+        firstName,
+        lastName,
+        phonenumber,
+        address,
+        positionId,
+        roleId,
+        gender,
+        image,
+      })
+    }
+
+    if (this.state.current_action === USER_REDUX_ACTIONS.EDIT) {
+      await this.props.editUser(
+        {
+          id: user_edit_id,
+          firstName,
+          lastName,
+          phonenumber,
+          address,
+          positionId,
+          roleId,
+          gender,
+          image,
+        },
+        user_edit_id
+      )
+    }
+
     this.setState({
       email: '',
       password: '',
@@ -144,6 +175,31 @@ class UserRedux extends Component {
       roleId: '',
       image: '',
       gender: '',
+      previewImageUrl: '',
+      current_action: USER_REDUX_ACTIONS.CREATE,
+      user_edit_id: '',
+    })
+  }
+
+  handleUserEditFromParent = (user) => {
+    let imageBase64 = ''
+    if (user.image) {
+      imageBase64 = new Buffer(user.image, 'base64').toString('binary')
+    }
+
+    this.setState({
+      email: user.email,
+      password: 'HARDCODE',
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phonenumber: user.phonenumber,
+      address: user.address,
+      positionId: user.positionId,
+      roleId: user.roleId,
+      gender: user.gender,
+      current_action: USER_REDUX_ACTIONS.EDIT,
+      user_edit_id: user.id,
+      previewImageUrl: imageBase64,
     })
   }
 
@@ -176,6 +232,9 @@ class UserRedux extends Component {
                       type="email"
                       className="form-control"
                       placeholder="Email"
+                      disabled={
+                        this.state.current_action === USER_REDUX_ACTIONS.EDIT
+                      }
                       value={email}
                       onChange={(e) => this.handleOnChangeInput(e, 'email')}
                     />
@@ -188,6 +247,9 @@ class UserRedux extends Component {
                       type="password"
                       className="form-control"
                       placeholder="Password"
+                      disabled={
+                        this.state.current_action === USER_REDUX_ACTIONS.EDIT
+                      }
                       value={password}
                       onChange={(e) => this.handleOnChangeInput(e, 'password')}
                     />
@@ -283,7 +345,6 @@ class UserRedux extends Component {
                     >
                       {this.state.positionArr?.length > 0 &&
                         this.state.positionArr.map((position, index) => (
-                          // No correction
                           <option key={index} value={position.key}>
                             {this.props.language === LANGUAGES.VI
                               ? position.value_vi
@@ -350,17 +411,27 @@ class UserRedux extends Component {
                 <div className="form">
                   <button
                     type="submit"
-                    className="btn btn-primary mx-4 mt-3"
+                    className={`btn ${
+                      this.state.current_action === USER_REDUX_ACTIONS.EDIT
+                        ? 'btn-warning'
+                        : 'btn-primary'
+                    } mx-4 mt-3`}
                     onClick={(e) => this.handleSubmit(e)}
                   >
-                    <FormattedMessage id="manage-user.save" />
+                    {this.state.current_action === USER_REDUX_ACTIONS.EDIT ? (
+                      <FormattedMessage id="manage-user.edit" />
+                    ) : (
+                      <FormattedMessage id="manage-user.save" />
+                    )}
                   </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-        <UserReduxTable />
+        <UserReduxTable
+          handleUserEditFromParent={this.handleUserEditFromParent}
+        />
         {this.state.isOpen && (
           <Lightbox
             mainSrc={this.state.previewImageUrl}
@@ -387,6 +458,7 @@ const mapDispatchToProps = (dispatch) => {
     getPosition: () => dispatch(fetchReduxData('position')),
     getRole: () => dispatch(fetchReduxData('role')),
     createUser: (data) => dispatch(createUser(data)),
+    editUser: (data, id) => dispatch(editUser(data, id)),
     getAllUsers: () => dispatch(getAllUsers()),
   }
 }

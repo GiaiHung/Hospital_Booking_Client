@@ -26,7 +26,10 @@ class UserReduxTable extends Component {
 
   async handleDeleteUser(id) {
     await this.props.deleteUser(id)
-    await this.props.getAllUsers()
+  }
+
+  handleEditUser(user) {
+    this.props.handleUserEditFromParent(user)
   }
 
   render() {
@@ -59,7 +62,7 @@ class UserReduxTable extends Component {
                   >
                     <button
                       className="btn user-edit"
-                      // onClick={() => this.handleEditUser(user)}
+                      onClick={() => this.handleEditUser(user)}
                     >
                       <FaEdit />
                     </button>
