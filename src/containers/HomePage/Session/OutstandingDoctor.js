@@ -1,64 +1,84 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
 
+import { fetchTopDoctor } from '../../../store/actions'
+
 class OutstandingDoctor extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      topDoctors: [],
+    }
+  }
+
+  componentDidMount() {
+    this.props.loadTopDoctor()
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.topDoctors !== this.props.topDoctors) {
+      this.setState({
+        topDoctors: this.props.topDoctors,
+      })
+    }
+  }
+
   render() {
     return (
       <div className="section-share-container section-background">
         <div className="section-share">
           <div className="section-content">
             <div className="header">
-              <span>Bác sĩ nổi bật tuần qua</span>
-              <button>Xem thêm</button>
+              <span>
+                <FormattedMessage id="home-section.outstanding-doctor" />
+              </span>
+              <button>
+                <FormattedMessage id="home-section.see-more" />
+              </button>
             </div>
             <div className="body">
               <Slider {...this.props.settings}>
-                <div className="content padding">
-                  <div className="customize-border">
-                    <div className="img outstanding-doctor-img"></div>
-                    <h3>Giáo sự, tiến sĩ 1</h3>
-                    <p>Cơ xương khớp</p>
-                  </div>
-                </div>
-                <div className="content padding">
-                  <div className="customize-border">
-                    <div className="img outstanding-doctor-img"></div>
-                    <h3>Giáo sự, tiến sĩ 2</h3>
-                    <p>Cơ xương khớp</p>
-                  </div>
-                </div>
-                <div className="content padding">
-                  <div className="customize-border">
-                    <div className="img outstanding-doctor-img"></div>
-                    <h3>Giáo sự, tiến sĩ 3</h3>
-                    <p>Cơ xương khớp</p>
-                  </div>
-                </div>
-                <div className="content padding">
-                  <div className="customize-border">
-                    <div className="img outstanding-doctor-img"></div>
-                    <h3>Giáo sự, tiến sĩ 4</h3>
-                    <p>Cơ xương khớp</p>
-                  </div>
-                </div>
-                <div className="content padding">
-                  <div className="customize-border">
-                    <div className="img outstanding-doctor-img"></div>
-                    <h3>Giáo sự, tiến sĩ 5</h3>
-                    <p>Cơ xương khớp</p>
-                  </div>
-                </div>
-                <div className="content padding">
-                  <div className="customize-border">
-                    <div className="img outstanding-doctor-img"></div>
-                    <h3>Giáo sự, tiến sĩ 6</h3>
-                    <p>Cơ xương khớp</p>
-                  </div>
-                </div>
+                {this.state.topDoctors.length > 0 &&
+                  this.state.topDoctors.map((doctor, index) => {
+                    let image =
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYKivqpXhVyCDAWt5orsRaQsJeJWk-yM8Ic4vZZYMsJ4-kxiHXuYClLy_5nnUPaZqeIWM&usqp=CAU'
+                    if (doctor.image) {
+                      image = new Buffer(doctor.image, 'base64').toString(
+                        'binary'
+                      )
+                    }
+                    const fullName =
+                      this.props.language === 'vi'
+                        ? doctor.lastName + ' ' + doctor.firstName
+                        : doctor.firstName + ' ' + doctor.lastName
+                    return (
+                      <div className="content padding" key={index}>
+                        <div className="customize-border">
+                          <div
+                            className="img outstanding-doctor-img"
+                            style={{
+                              backgroundImage: `url(${image})`,
+                              backgroundPosition: 'center',
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                            }}
+                          ></div>
+                          <h3>
+                            {fullName}{' '}
+                            {this.props.language === 'vi'
+                              ? doctor.positionData.value_vi
+                              : doctor.positionData.value_en}
+                          </h3>
+                          <p>Cơ xương khớp</p>
+                        </div>
+                      </div>
+                    )
+                  })}
               </Slider>
             </div>
           </div>
@@ -71,11 +91,15 @@ class OutstandingDoctor extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    topDoctors: state.home.topDoctors,
+    language: state.app.language,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    loadTopDoctor: () => dispatch(fetchTopDoctor()),
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor)

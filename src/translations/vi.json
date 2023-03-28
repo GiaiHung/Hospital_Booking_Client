@@ -20,6 +20,14 @@
     "options5": "Sức khỏe tinh thần",
     "options6": "Khám nha khoa"
   },
+  "home-section": {
+    "popular-specialty": "Chuyên khoa phổ biến",
+    "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
+    "medical-facility": "Cơ sở y tế nổi bật",
+    "handbook": "Cẩm nang",
+    "media": "Truyền thông nói về chúng tôi",
+    "see-more": "Xem thêm"
+  },
   "menu": {
     "system": {
       "header": "Hệ thống",

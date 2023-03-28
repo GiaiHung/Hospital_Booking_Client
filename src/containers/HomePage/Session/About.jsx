@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 
 class About extends Component {
@@ -13,7 +14,9 @@ class About extends Component {
         <div className="section-share">
           <div className="section-content">
             <div className="header">
-              <span>Truyền thông nói về BookingCare</span>
+              <span>
+                <FormattedMessage id="home-section.media" />
+              </span>
             </div>
             <div className="body about">
               <div className="about-body-left">

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 // import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import Slider from 'react-slick'
 
 class Specialty extends Component {
@@ -15,8 +16,12 @@ class Specialty extends Component {
         <div className="section-share">
           <div className="section-content">
             <div className="header">
-              <span>Chuyên khoa phổ biến</span>
-              <button>Xem thêm</button>
+              <span>
+                <FormattedMessage id="home-section.popular-specialty" />
+              </span>
+              <button>
+                <FormattedMessage id="home-section.see-more" />
+              </button>
             </div>
             <div className="body">
               <Slider {...this.props.settings}>

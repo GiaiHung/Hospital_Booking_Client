@@ -76,7 +76,7 @@
             }
 
             &.outstanding-doctor-img {
-              background-image: url('../../assets/doctor/doctor-1.jpg');
+              // background-image: url('../../assets/doctor/doctor-1.jpg');
               width: 120px;
               height: 120px;
               margin: 10px auto;
@@ -91,6 +91,10 @@
           h3,
           p {
             text-align: center;
+          }
+
+          h3 {
+            font-size: 16px;
           }
         }
 
@@ -157,4 +161,8 @@
   font-family: FontAwesome !important;
   color: gray !important;
   // content: '\f060' !important;
+}
+
+.slick-disabled {
+  display: none !important;
 }

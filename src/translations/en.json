@@ -20,6 +20,14 @@
     "options5": "Mental health",
     "options6": "Dental examination"
   },
+  "home-section": {
+    "popular-specialty": "Popular specialty",
+    "outstanding-doctor": "Outstanding doctor",
+    "medical-facility": "Medical facility",
+    "handbook": "Handbook",
+    "media": "Media",
+    "see-more": "See More"
+  },
   "menu": {
     "system": {
       "header": "System",

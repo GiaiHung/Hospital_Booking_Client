@@ -8,6 +8,7 @@ import adminReducer from './adminReducer'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer } from 'redux-persist'
+import homeReducer from './homeReducer'
 
 const persistCommonConfig = {
   storage: storage,
@@ -32,6 +33,7 @@ const root = (history) =>
     app: persistReducer(appPersistConfig, appReducer),
     user: persistReducer(userPersistConfig, userReducer),
     admin: adminReducer,
+    home: homeReducer,
   })
 
 export default root
