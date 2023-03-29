@@ -4,12 +4,6 @@ import { FaTrash, FaEdit } from 'react-icons/fa'
 import './UserReduxTable.scss'
 import { deleteUser, getAllUsers } from '../../../store/actions'
 
-import MarkdownIt from 'markdown-it'
-import MdEditor from 'react-markdown-editor-lite'
-import 'react-markdown-editor-lite/lib/index.css'
-
-const mdParser = new MarkdownIt(/* Markdown-it options */)
-
 class UserReduxTable extends Component {
   constructor(props) {
     super(props)
@@ -36,10 +30,6 @@ class UserReduxTable extends Component {
 
   handleEditUser(user) {
     this.props.handleUserEditFromParent(user)
-  }
-
-  handleEditorChange({ html, text }) {
-    console.log('handleEditorChange', html, text)
   }
 
   render() {
@@ -87,11 +77,6 @@ class UserReduxTable extends Component {
               ))}
           </tbody>
         </table>
-        <MdEditor
-          style={{ height: '500px' }}
-          renderHTML={(text) => mdParser.render(text)}
-          onChange={this.handleEditorChange}
-        />
       </div>
     )
   }
