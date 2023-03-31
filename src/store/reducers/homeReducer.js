@@ -2,6 +2,7 @@ import actionTypes from '../actions/actionTypes'
 
 const initialState = {
   topDoctors: [],
+  doctors: [],
 }
 
 const homeReducer = (state = initialState, action) => {
@@ -11,6 +12,12 @@ const homeReducer = (state = initialState, action) => {
       return { ...state }
     case actionTypes.GET_TOP_DOCTOR_FAILED:
       state.topDoctors = []
+      return { ...state }
+    case actionTypes.GET_ALL_DOCTOR_SUCCESS:
+      state.doctors = action.data
+      return { ...state }
+    case actionTypes.GET_ALL_DOCTOR_FAILED:
+      state.doctors = []
       return { ...state }
     default:
       console.log('Hello default')

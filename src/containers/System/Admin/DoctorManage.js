@@ -7,6 +7,8 @@ import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 import './DoctorManage.scss'
 
+import { getAllDoctors, saveDoctor } from '../../../store/actions/doctorActions'
+
 const mdParser = new MarkdownIt()
 
 class DoctorManage extends Component {
@@ -17,12 +19,22 @@ class DoctorManage extends Component {
       selectedDoctor: '',
       contentHTML: '',
       contentMarkdown: '',
+
+      doctors: [],
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getDoctors()
+  }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {}
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.doctors !== this.state.doctors) {
+      this.setState({
+        doctors: this.props.doctors,
+      })
+    }
+  }
 
   handleEditorChange = ({ html, text }) => {
     this.setState({
@@ -37,16 +49,29 @@ class DoctorManage extends Component {
     })
   }
 
-  handleSaveContentMarkdown() {
-    console.log('Check state', this.state)
+  handleSaveContentMarkdown = async () => {
+    const { description, selectedDoctor, contentHTML, contentMarkdown } =
+      this.state
+    await this.props.saveDoctorDescription({
+      description,
+      selectedDoctor,
+      contentHTML,
+      contentMarkdown,
+    })
   }
 
   render() {
-    const options = [
-      { value: 'chocolate', label: 'Chocolate' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'vanilla', label: 'Vanilla' },
-    ]
+    let options = []
+    if (this.state.doctors.length > 0) {
+      options = this.state.doctors.reduce((prev, cur) => {
+        const name =
+          this.props.language === 'en'
+            ? cur.firstName + ' ' + cur.lastName
+            : cur.lastName + ' ' + cur.firstName
+        prev.push({ id: cur.id, value: name.toLowerCase(), label: name })
+        return prev
+      }, [])
+    }
 
     return (
       <div className="doctor-manage-container">
@@ -92,11 +117,16 @@ class DoctorManage extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    doctors: state.home.doctors,
+    language: state.app.language,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    getDoctors: () => dispatch(getAllDoctors()),
+    saveDoctorDescription: (data) => dispatch(saveDoctor(data)),
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorManage)
