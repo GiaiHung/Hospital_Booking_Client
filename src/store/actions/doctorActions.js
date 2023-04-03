@@ -38,4 +38,21 @@ const saveDoctor = (data) => {
   }
 }
 
-export { getAllDoctors, saveDoctor }
+const getDoctorDetail = async (id) => {
+  try {
+    const res = await axios.get(`/api/v1/doctor/${id}`)
+    if (res.data.status === 'success') {
+      const doctor = res.data.data
+      let imageBase64 = ''
+      if (doctor.image) {
+        imageBase64 = new Buffer(doctor.image, 'base64').toString('binary')
+      }
+      doctor.image = imageBase64
+      return doctor
+    }
+  } catch (error) {
+    toast.error('Get doctor detail failed')
+  }
+}
+
+export { getAllDoctors, saveDoctor, getDoctorDetail }

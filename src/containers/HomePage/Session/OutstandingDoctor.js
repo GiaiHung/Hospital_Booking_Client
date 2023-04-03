@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
 
 import { fetchTopDoctor } from '../../../store/actions'
+import { withRouter } from 'react-router-dom'
 
 class OutstandingDoctor extends Component {
   constructor(props) {
@@ -26,6 +27,10 @@ class OutstandingDoctor extends Component {
         topDoctors: this.props.topDoctors,
       })
     }
+  }
+
+  handleViewDoctorDetail(doctor) {
+    this.props.history.push(`detail-doctor/${doctor.id}`)
   }
 
   render() {
@@ -58,7 +63,10 @@ class OutstandingDoctor extends Component {
                         : doctor.firstName + ' ' + doctor.lastName
                     return (
                       <div className="content padding" key={index}>
-                        <div className="customize-border">
+                        <div
+                          className="customize-border"
+                          onClick={() => this.handleViewDoctorDetail(doctor)}
+                        >
                           <div
                             className="img outstanding-doctor-img"
                             style={{
@@ -102,4 +110,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor)
+)

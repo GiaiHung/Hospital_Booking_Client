@@ -19,6 +19,7 @@ import './App.scss'
 
 import CustomScrollbars from '../components/CustomScrollbars'
 import HomePage from './HomePage/HomePage'
+import DoctorDetail from './HomePage/Doctor/DoctorDetail'
 
 class App extends Component {
   handlePersistorState = () => {
@@ -57,6 +58,7 @@ class App extends Component {
                     path={path.SYSTEM}
                     component={userIsAuthenticated(System)}
                   />
+                  <Route path={path.DETAIL_DOCTOR} component={DoctorDetail} />
                 </Switch>
               </CustomScrollbars>
             </div>

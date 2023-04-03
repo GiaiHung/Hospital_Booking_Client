@@ -9,3 +9,10 @@
 .main-container {
   overflow: scroll;
 }
+
+a {
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+  }
+}

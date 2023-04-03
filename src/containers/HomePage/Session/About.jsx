@@ -25,7 +25,7 @@ class About extends Component {
                   height="300px"
                   src="https://www.youtube.com/embed/at37Y8rKDlA"
                   title="How to Optimize Your Water Quality &amp; Intake for Health | Huberman Lab Podcast"
-                  frameborder="0"
+                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>
