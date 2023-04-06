@@ -70,6 +70,7 @@ class DoctorDetail extends Component {
               dangerouslySetInnerHTML={{
                 __html: Markdown?.contentHTML,
               }}
+              className="content"
             ></div>
           </div>
           <div className="comment"></div>

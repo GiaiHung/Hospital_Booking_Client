@@ -1,10 +1,9 @@
 .doctor-detail-container {
-  margin: 0 100px;
   margin-top: 80px;
-  height: 500px;
 
   .intro {
     display: flex;
+    margin: 0 100px;
 
     .left {
       width: 150px;
@@ -37,10 +36,22 @@
   }
 
   .detail {
-    margin-top: 20px;
+    padding: 20px 0;
+    border-top: 1px solid rgb(196, 195, 195);
+    background-color: #f9f9f9;
 
-    h3 {
-      font-size: 16px;
+    .content {
+      margin: 0 100px;
+      box-shadow: none;
+
+      h3 {
+        font-size: 16px;
+      }
+
+      img {
+        width: 400px;
+        object-fit: contain;
+      }
     }
   }
 }

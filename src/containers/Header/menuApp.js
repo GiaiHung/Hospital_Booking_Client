@@ -1,7 +1,6 @@
 export const adminMenu = [
   // User manage
   {
-    //hệ thống
     name: 'menu.admin.manage-user',
     menus: [
       {
@@ -19,8 +18,8 @@ export const adminMenu = [
         // ],
       },
       {
-        name: 'menu.admin.manage-admin',
-        link: '/system/user-admin',
+        name: 'menu.doctor.manage-schedule',
+        link: '/system/manage-doctor-schedule',
       },
       {
         name: 'menu.admin.crud',
@@ -59,6 +58,18 @@ export const adminMenu = [
       {
         name: 'menu.admin.manage-handbook',
         link: '/system/manage-handbook',
+      },
+    ],
+  },
+]
+
+export const doctorMenu = [
+  {
+    name: 'menu.doctor.manage-user',
+    menus: [
+      {
+        name: 'menu.doctor.manage-schedule',
+        link: '/system/manage-doctor-schedule',
       },
     ],
   },

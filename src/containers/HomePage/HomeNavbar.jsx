@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './HomeFooter.scss'
 import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom'
 import { LANGUAGES } from '../../utils'
 import { changeLanguageApp } from '../../store/actions'
 
@@ -19,10 +20,10 @@ class HomeNavbar extends Component {
     return (
       <div className="home-header-container">
         <div className="home-header-content">
-          <div className="left-content">
+          <Link className="left-content" to="/home">
             <i className="fas fa-bars"></i>
             <div className="header-logo"></div>
-          </div>
+          </Link>
           <div className="center-content">
             <div className="child-content">
               <div>
