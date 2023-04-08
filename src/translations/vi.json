@@ -74,5 +74,12 @@
     "save": "Lưu người dùng",
     "edit": "Sửa người dùng",
     "preview-image-upload": "Tải ảnh"
+  },
+  "doctor-schedule": {
+    "title": "Quản lý lịch khám bệnh của bác sĩ",
+    "choose-doctor": "Chọn bác sĩ",
+    "choose-date": "Chọn ngày",
+    "choose-time": "Chọn thời gian",
+    "register": "Đặt lịch"
   }
 }

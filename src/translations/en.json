@@ -74,5 +74,12 @@
     "save": "Save",
     "edit": "Edit user",
     "preview-image-upload": "Upload"
+  },
+  "doctor-schedule": {
+    "title": "Manage doctor schedule",
+    "choose-doctor": "Choose doctor",
+    "choose-date": "Choose date",
+    "choose-time": "Choose time",
+    "register": "Register"
   }
 }

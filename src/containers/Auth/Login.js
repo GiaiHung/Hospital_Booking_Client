@@ -16,16 +16,19 @@ class Login extends Component {
       errMessage: '',
     }
   }
+
   handleOnChangeUsername = (e) => {
     this.setState({
       username: e.target.value,
     })
   }
+
   handleOnChangePassword = (e) => {
     this.setState({
       password: e.target.value,
     })
   }
+
   handleLogin = async () => {
     try {
       this.setState({
@@ -45,11 +48,19 @@ class Login extends Component {
       })
     }
   }
+
   handleShowHidePassword = () => {
     this.setState({
       isShownPassword: !this.state.isShownPassword,
     })
   }
+
+  handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.handleLogin()
+    }
+  }
+
   render() {
     return (
       <div className="login-background">
@@ -75,6 +86,7 @@ class Login extends Component {
                   className="form-control login-input"
                   value={this.state.password}
                   onChange={(e) => this.handleOnChangePassword(e)}
+                  onKeyDown={(e) => this.handleKeyDown(e)}
                 />
                 <i
                   className={`fas ${

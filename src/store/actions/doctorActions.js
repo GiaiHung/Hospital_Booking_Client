@@ -55,4 +55,23 @@ const getDoctorDetail = async (id) => {
   }
 }
 
-export { getAllDoctors, saveDoctor, getDoctorDetail }
+const getDoctorSchedule = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.get('/api/v1/allcode?type=time')
+      if (res.data.status === 'success') {
+        dispatch({
+          type: actionTypes.GET_ALLCODE_SCHEDULE_SUCCESS,
+          data: res.data.data,
+        })
+      }
+    } catch (error) {
+      toast.error('Get doctor schedule failed')
+      dispatch({
+        type: actionTypes.GET_ALLCODE_SCHEDULE_FAILED,
+      })
+    }
+  }
+}
+
+export { getAllDoctors, saveDoctor, getDoctorDetail, getDoctorSchedule }

@@ -1,0 +1,21 @@
+.doctor-schedule-container {
+  .title {
+    text-transform: uppercase;
+  }
+
+  .schedule {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .schedule-btn {
+      border: 1px solid lightgrey;
+      color: gray;
+
+      &:hover {
+        color: black;
+        border: 1px solid black;
+      }
+    }
+  }
+}
