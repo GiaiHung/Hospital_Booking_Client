@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import Select from 'react-select'
-// import moment from 'moment'
+import moment from 'moment'
+import * as _ from 'lodash'
+import { toast } from 'react-toastify'
 
 import './DoctorSchedule.scss'
 import {
@@ -10,6 +12,7 @@ import {
   getDoctorSchedule,
 } from '../../../store/actions/doctorActions'
 import DatePicker from '../../../components/Input/DatePicker'
+import { dateFormat } from '../../../utils'
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -18,7 +21,7 @@ class DoctorSchedule extends Component {
       doctors: [],
       doctorSchedule: [],
       selectedDoctor: {},
-      currentDate: new Date(),
+      currentDate: '',
     }
   }
 
@@ -28,14 +31,18 @@ class DoctorSchedule extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.doctors !== this.state.doctors) {
+    if (prevProps.doctors !== this.props.doctors) {
       this.setState({
         doctors: this.props.doctors,
       })
     }
-    if (prevProps.doctorSchedule !== this.state.doctorSchedule) {
+    if (prevProps.doctorSchedule !== this.props.doctorSchedule) {
+      let schedule = this.props.doctorSchedule
+      if (schedule.length > 0) {
+        schedule = schedule.map((item) => ({ ...item, isSelected: false }))
+      }
       this.setState({
-        doctorSchedule: this.props.doctorSchedule,
+        doctorSchedule: schedule,
       })
     }
   }
@@ -50,6 +57,47 @@ class DoctorSchedule extends Component {
     this.setState({
       currentDate: date[0],
     })
+  }
+
+  handleSelectSchedule(index) {
+    let schedule = this.state.doctorSchedule
+    schedule[index].isSelected = !schedule[index].isSelected
+    this.setState({
+      doctorSchedule: schedule,
+    })
+  }
+
+  handleSaveSchedule() {
+    const { currentDate, selectedDoctor, doctorSchedule } = this.state
+    let result = []
+    if (_.isEmpty(selectedDoctor)) {
+      toast.error('Please select a doctor')
+      return
+    }
+    if (!currentDate) {
+      toast.error('Invalid current date')
+      return
+    }
+    const formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
+
+    if (doctorSchedule.length > 0) {
+      const selectedSchedule = doctorSchedule.filter(
+        (schedule) => schedule.isSelected === true
+      )
+      if (selectedSchedule.length > 0) {
+        selectedSchedule.map((schedule) => {
+          const object = {}
+          object.doctorId = selectedDoctor.id
+          object.date = formattedDate
+          object.time = schedule.keyMap
+          return result.push(object)
+        })
+      } else {
+        toast.error('Please select at least one schedule')
+      }
+    }
+
+    console.log(result)
   }
 
   render() {
@@ -97,7 +145,15 @@ class DoctorSchedule extends Component {
               <div className="schedule">
                 {schedule.length > 0 &&
                   schedule.map((item, index) => (
-                    <button className="btn schedule-btn" key={index}>
+                    <button
+                      className={`btn schedule-btn ${
+                        this.state.doctorSchedule[index].isSelected
+                          ? 'schedule-btn-active'
+                          : ''
+                      }`}
+                      key={index}
+                      onClick={() => this.handleSelectSchedule(index)}
+                    >
                       {this.props.language === 'en'
                         ? item.value_en
                         : item.value_vi}
@@ -106,7 +162,10 @@ class DoctorSchedule extends Component {
               </div>
             </div>
           </div>
-          <button className="btn btn-primary mt-3">
+          <button
+            className="btn btn-primary mt-3"
+            onClick={() => this.handleSaveSchedule()}
+          >
             <FormattedMessage id="doctor-schedule.register" />
           </button>
         </div>
