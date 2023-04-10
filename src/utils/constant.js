@@ -20,7 +20,7 @@ export const USER_REDUX_ACTIONS = {
 }
 
 export const dateFormat = {
-  SEND_TO_SERVER: 'DD/MM/YYYY',
+  SEND_TO_SERVER: 'MM/DD/YYYY',
 }
 
 export const YesNoObj = {

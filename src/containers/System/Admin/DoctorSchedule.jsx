@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import Select from 'react-select'
-import moment from 'moment'
 import * as _ from 'lodash'
 import { toast } from 'react-toastify'
 
@@ -12,7 +11,7 @@ import {
   getDoctorSchedule,
 } from '../../../store/actions/doctorActions'
 import DatePicker from '../../../components/Input/DatePicker'
-import { dateFormat } from '../../../utils'
+import axios from '../../../axios'
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -67,7 +66,7 @@ class DoctorSchedule extends Component {
     })
   }
 
-  handleSaveSchedule() {
+  async handleSaveSchedule() {
     const { currentDate, selectedDoctor, doctorSchedule } = this.state
     let result = []
     if (_.isEmpty(selectedDoctor)) {
@@ -78,7 +77,7 @@ class DoctorSchedule extends Component {
       toast.error('Invalid current date')
       return
     }
-    const formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
+    const formattedDate = new Date(currentDate).getTime()
 
     if (doctorSchedule.length > 0) {
       const selectedSchedule = doctorSchedule.filter(
@@ -89,7 +88,8 @@ class DoctorSchedule extends Component {
           const object = {}
           object.doctorId = selectedDoctor.id
           object.date = formattedDate
-          object.time = schedule.keyMap
+          object.timeType = schedule.keyMap
+          object.maxNumber = 10
           return result.push(object)
         })
       } else {
@@ -97,7 +97,27 @@ class DoctorSchedule extends Component {
       }
     }
 
-    console.log(result)
+    try {
+      const res = await axios.post('/api/v1/doctor/schedule', {
+        arrSchedule: result,
+        doctorId: selectedDoctor.id,
+        date: formattedDate,
+      })
+      if (res.data.status === 'success') {
+        toast.success('Schedule successfully created')
+      }
+    } catch (error) {
+      toast.warn('Sorry, doctor may have already been scheduled')
+    }
+
+    this.setState({
+      selectedDoctor: {},
+      currentDate: '',
+      doctorSchedule: doctorSchedule.map((schedule) => ({
+        ...schedule,
+        isSelected: false,
+      })),
+    })
   }
 
   render() {
@@ -125,7 +145,11 @@ class DoctorSchedule extends Component {
               <label>
                 <FormattedMessage id="doctor-schedule.choose-doctor" />
               </label>
-              <Select onChange={this.handleOnSelectDoctor} options={options} />
+              <Select
+                onChange={this.handleOnSelectDoctor}
+                value={this.state.selectedDoctor}
+                options={options}
+              />
             </div>
             <div className="col-6 form-group">
               <label>
@@ -134,6 +158,7 @@ class DoctorSchedule extends Component {
               <DatePicker
                 className="form-control"
                 selected={this.state.currentDate}
+                value={this.state.currentDate}
                 minDate={new Date()}
                 onChange={this.handleOnChangeDatePicker}
               />
