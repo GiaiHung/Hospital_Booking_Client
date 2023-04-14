@@ -4,6 +4,7 @@ import './DoctorDetail.scss'
 import HomeNavbar from '../HomeNavbar'
 import { getDoctorDetail } from '../../../store/actions/doctorActions'
 import { LANGUAGES } from '../../../utils'
+import DoctorSchedule from './DoctorSchedule'
 
 class DoctorDetail extends Component {
   constructor(props) {
@@ -56,15 +57,11 @@ class DoctorDetail extends Component {
                 <h2>{name}</h2>
               </div>
               <div className="down">
-                <p>
-                  Nguyên Trưởng phòng chỉ đạo tuyến tại Bệnh viện Da liễu Trung
-                  ương Bác sĩ từng công tác tại Bệnh viện Da liễu Trung ương
-                </p>
-                <p>Nguyên Tổng Thư ký Hiệp hội Da liễu Việt Nam</p>
+                <p>{Markdown?.introduction}</p>
               </div>
             </div>
           </div>
-          <div className="schedule"></div>
+          <DoctorSchedule doctor={this.state.doctor} />
           <div className="detail">
             <div
               dangerouslySetInnerHTML={{

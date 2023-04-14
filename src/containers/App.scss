@@ -1,5 +1,9 @@
 @import '../styles/common.scss';
 
+body {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 ::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none; /* IE and Edge */
