@@ -12,6 +12,7 @@ import {
 } from '../../../store/actions/doctorActions'
 import DatePicker from '../../../components/Input/DatePicker'
 import axios from '../../../axios'
+// import moment from 'moment'
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class DoctorSchedule extends Component {
       toast.error('Invalid current date')
       return
     }
-    const formattedDate = new Date(currentDate).getTime()
+    const formattedDate = new Date(currentDate).getTime().toString()
 
     if (doctorSchedule.length > 0) {
       const selectedSchedule = doctorSchedule.filter(
@@ -159,7 +160,7 @@ class DoctorSchedule extends Component {
                 className="form-control"
                 selected={this.state.currentDate}
                 value={this.state.currentDate}
-                minDate={new Date()}
+                minDate={new Date().setHours(0, 0, 0, 0)}
                 onChange={this.handleOnChangeDatePicker}
               />
             </div>

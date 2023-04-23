@@ -17,6 +17,24 @@ const fetchReduxData = (type) => {
           case 'role':
             dispatch(fetchRoleSuccess(res.data.data))
             break
+          case 'price':
+            dispatch({
+              type: actionTypes.GET_DOCTOR_PRICE_SUCCESS,
+              data: res.data.data,
+            })
+            break
+          case 'payment':
+            dispatch({
+              type: actionTypes.GET_DOCTOR_PAYMENT_SUCCESS,
+              data: res.data.data,
+            })
+            break
+          case 'province':
+            dispatch({
+              type: actionTypes.GET_DOCTOR_PROVINCE_SUCCESS,
+              data: res.data.data,
+            })
+            break
           default:
             return
         }

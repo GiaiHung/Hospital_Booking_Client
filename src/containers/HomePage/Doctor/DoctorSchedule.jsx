@@ -5,6 +5,9 @@ import moment from 'moment'
 import axios from '../../../axios'
 // Don't use but have to import to notify moment we using vietnamese
 import localization from 'moment/locale/vi' // eslint-disable-line
+import { AiOutlineSchedule } from 'react-icons/ai'
+import { BsHandIndex } from 'react-icons/bs'
+import { FormattedMessage } from 'react-intl'
 
 import { LANGUAGES } from '../../../utils/constant'
 import './DoctorSchedule.scss'
@@ -14,16 +17,25 @@ class DoctorSchedule extends Component {
     super(props)
     this.state = {
       allDays: [],
+      schedules: [],
+      currentDate: '',
     }
   }
 
-  componentDidMount() {
-    this.setArrDate()
+  async componentDidMount() {
+    const allDays = await this.setArrDate()
+    this.setState({
+      allDays,
+      currentDate: allDays[0].value,
+    })
   }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.allDays !== this.props.allDays) {
-      this.setArrDate()
+    if (prevProps.language !== this.props.language) {
+      const allDays = await this.setArrDate()
+      this.setState({
+        allDays,
+      })
     }
   }
 
@@ -32,29 +44,43 @@ class DoctorSchedule extends Component {
     for (let i = 0; i < 7; i++) {
       const date = {}
       if (this.props.language === LANGUAGES.EN) {
-        date.label = moment(new Date())
-          .add(i, 'days')
-          .locale(LANGUAGES.EN)
-          .format('ddd - DD/MM')
+        if (i === 0) {
+          const ddMM = moment(new Date()).format('DD/MM')
+          date.label = `Today - ${ddMM}`
+        } else {
+          date.label = moment(new Date())
+            .add(i, 'days')
+            .locale(LANGUAGES.EN)
+            .format('ddd - DD/MM')
+        }
       } else {
-        date.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')
+        if (i === 0) {
+          const ddMM = moment(new Date()).format('DD/MM')
+          date.label = `Hôm nay - ${ddMM}`
+        } else {
+          date.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')
+        }
       }
       date.value = moment(new Date()).add(i, 'days').startOf('day').valueOf()
       arrDate.push(date)
     }
-
-    this.setState({
-      allDays: arrDate,
-    })
+    return arrDate
   }
 
   getScheduleByDate = async (date) => {
     const id = this.props.doctor.id
+    let res
     if (id) {
-      const res = await axios.get(
+      res = await axios.get(
         `/api/v1/doctor/get-schedule-by-date?doctorId=${id}&date=${date}`
       )
-      console.log(res.data)
+      if (res.data.status === 'success') {
+        this.setState({
+          schedules: res.data.data,
+          currentDate: date,
+        })
+        return res.data
+      }
     }
   }
 
@@ -81,21 +107,57 @@ class DoctorSchedule extends Component {
             styles={customStyles}
             onChange={(e) => this.getScheduleByDate(e.value)}
           />
+          <div className="left-title">
+            <div className="icon">
+              <AiOutlineSchedule />
+            </div>
+            <FormattedMessage id="patient.detail-doctor.schedule" />
+          </div>
+          <div className="left-content">
+            {this.state.schedules.length > 0 ? (
+              <div className="schedule">
+                {this.state.schedules.map((schedule, index) => (
+                  <button key={index} className="schedule-btn">
+                    {this.props.language === LANGUAGES.EN
+                      ? schedule.timeTypeData.value_en
+                      : schedule.timeTypeData.value_vi}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <FormattedMessage id="patient.detail-doctor.no-schedule" />
+              </div>
+            )}
+          </div>
+          <div className="mt-3">
+            Chọn <BsHandIndex /> và đặt (Phí đặt lịch 0đ)
+          </div>
         </div>
         {/* RIGHT - ADDRESS AND PRICE */}
         <div className="right">
           <div className="address">
-            <h3 className="schedule-title">ĐỊA CHỈ KHÁM</h3>
+            <h3 className="schedule-title">
+              <FormattedMessage id="patient.detail-doctor.address" />
+            </h3>
             <h4>Phòng khám Chuyên khoa Da Liễu</h4>
             <p>207 Phố Huế - Hai Bà Trưng - Hà Nội</p>
           </div>
           <div className="session">
-            <h3 className="schedule-title">GIÁ KHÁM: 300.000đ.</h3>
-            <button className="btn btn-outline-secondary">Xem chi tiết</button>
+            <h3 className="schedule-title">
+              <FormattedMessage id="patient.detail-doctor.price" />: 300.000đ.
+            </h3>
+            <button className="btn btn-outline-secondary">
+              <FormattedMessage id="patient.detail-doctor.see-in-detail" />
+            </button>
           </div>
           <div className="session">
-            <h3 className="schedule-title">LOẠI BẢO HIỂM ÁP DỤNG.</h3>
-            <button className="btn btn-outline-secondary">Xem chi tiết</button>
+            <h3 className="schedule-title">
+              <FormattedMessage id="patient.detail-doctor.insurance" />
+            </h3>
+            <button className="btn btn-outline-secondary">
+              <FormattedMessage id="patient.detail-doctor.see-in-detail" />
+            </button>
           </div>
         </div>
       </div>

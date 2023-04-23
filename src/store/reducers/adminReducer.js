@@ -6,6 +6,9 @@ const initialState = {
   roles: [],
   positions: [],
   users: [],
+  price: [],
+  payment: [],
+  province: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -72,6 +75,16 @@ const adminReducer = (state = initialState, action) => {
       return { ...state }
     case actionTypes.GET_USER_FAILED:
       state.users = []
+      return { ...state }
+    // DOCTOR INFORMATION
+    case actionTypes.GET_DOCTOR_PRICE_SUCCESS:
+      state.price = action.data
+      return { ...state }
+    case actionTypes.GET_DOCTOR_PAYMENT_SUCCESS:
+      state.payment = action.data
+      return { ...state }
+    case actionTypes.GET_DOCTOR_PROVINCE_SUCCESS:
+      state.province = action.data
       return { ...state }
     default:
       console.log('Hello default')

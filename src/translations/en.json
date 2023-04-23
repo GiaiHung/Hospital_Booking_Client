@@ -75,11 +75,32 @@
     "edit": "Edit user",
     "preview-image-upload": "Upload"
   },
+  "manage-doctor": {
+    "create": "Create doctor info",
+    "select": "Select doctor",
+    "info": "Describe doctor's information",
+    "price": "Price",
+    "payment": "Payment",
+    "province": "Province",
+    "clinic_name": "Clinic name",
+    "address": "Address",
+    "note": "Note"
+  },
   "doctor-schedule": {
     "title": "Manage doctor schedule",
     "choose-doctor": "Choose doctor",
     "choose-date": "Choose date",
     "choose-time": "Choose time",
     "register": "Register"
+  },
+  "patient": {
+    "detail-doctor": {
+      "schedule": "Schedule",
+      "no-schedule": "No appointment scheduled",
+      "address": "Address",
+      "price": "Price",
+      "insurance": "Applied insurance",
+      "see-in-detail": "See in detail"
+    }
   }
 }
