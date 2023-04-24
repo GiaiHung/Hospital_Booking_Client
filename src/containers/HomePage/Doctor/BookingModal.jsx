@@ -1,23 +1,80 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import './HomeFooter.scss'
+import { Modal } from 'reactstrap'
+import './BookingModal.scss'
+import { FaTimes } from 'react-icons/fa'
 
-class HomeFooter extends Component {
+class BookingModal extends Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
 
+  componentDidMount() {}
+
+  componentDidUpdate() {}
+
   render() {
-    const currentYear = new Date().getFullYear()
     return (
-      <div className="footer">
-        <p>
-          &#169; Copyright {currentYear} Truong Giai Hung{' '}
-          <a target="_blank" rel="noreferrer" href="https://google.com">
-            For more information. Please visit our youtube channel
-          </a>
-        </p>
+      <div>
+        <Modal
+          isOpen={this.props.isModalOpen}
+          centered={true}
+          toggle={this.props.toggleModal}
+          size="lg"
+          className={'booking-modal-container'}
+        >
+          <div className="booking-modal-content">
+            <div className="booking-modal-header">
+              <span className="title">Thông tin đặt lịch khám bệnh</span>
+              <span className="close-btn" onClick={this.props.toggleModal}>
+                <FaTimes />
+              </span>
+            </div>
+            <div className="booking-modal-body">
+              <div className="doctor-info"></div>
+              <div className="row">
+                <div className="col-6 form-group">
+                  <label>Họ và tên</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-6 form-group">
+                  <label>Số điện thoại</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-6 form-group">
+                  <label>Địa chỉ</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-6 form-group">
+                  <label>Email</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-12 form-group">
+                  <label>Lý do khám</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-6 form-group">
+                  <label>Giới tính</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-6 form-group">
+                  <label>Đặt cho ai</label>
+                  <input type="text" className="form-control" />
+                </div>
+              </div>
+            </div>
+            <div className="booking-modal-footer">
+              <button className="btn btn-success">Xác nhận</button>
+              <button
+                className="btn btn-danger"
+                onClick={this.props.toggleModal}
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        </Modal>
       </div>
     )
   }
@@ -31,4 +88,4 @@ const mapDispatchToProps = (dispatch) => {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeFooter)
+export default connect(mapStateToProps, mapDispatchToProps)(BookingModal)

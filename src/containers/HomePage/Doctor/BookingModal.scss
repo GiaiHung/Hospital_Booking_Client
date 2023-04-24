@@ -1,0 +1,32 @@
+.booking-modal-content {
+  .booking-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    height: 40px;
+    border-bottom: 1px solid #ccc;
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      cursor: pointer;
+      font-size: 14px;
+    }
+  }
+
+  .booking-modal-body {
+    padding: 10px;
+  }
+
+  .booking-modal-footer {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}

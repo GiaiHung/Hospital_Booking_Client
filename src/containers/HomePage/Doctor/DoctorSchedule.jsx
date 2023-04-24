@@ -12,6 +12,7 @@ import { NumericFormat } from 'react-number-format'
 
 import { LANGUAGES } from '../../../utils/constant'
 import './DoctorSchedule.scss'
+import BookingModal from './BookingModal'
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -21,6 +22,9 @@ class DoctorSchedule extends Component {
       schedules: [],
       currentDate: '',
       isPriceDetailOpen: false,
+
+      isModalOpen: false,
+      modalData: {},
     }
   }
 
@@ -86,6 +90,19 @@ class DoctorSchedule extends Component {
     }
   }
 
+  handleScheduleClick(schedule) {
+    this.setState({
+      isModalOpen: true,
+      modalData: schedule,
+    })
+  }
+
+  toggleModal = () => {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+    })
+  }
+
   render() {
     const allDaysFormatted = this.state.allDays.map((day) => {
       const copyDay = { ...day }
@@ -104,143 +121,154 @@ class DoctorSchedule extends Component {
     const { language } = this.props
 
     return (
-      <div className="schedule-container">
-        {/* LEFT - ALL SCHEDULE */}
-        <div className="left">
-          <Select
-            options={allDaysFormatted}
-            styles={customStyles}
-            onChange={(e) => this.getScheduleByDate(e.value)}
-          />
-          <div className="left-title">
-            <div className="icon">
-              <AiOutlineSchedule />
+      <>
+        <div className="schedule-container">
+          {/* LEFT - ALL SCHEDULE */}
+          <div className="left">
+            <Select
+              options={allDaysFormatted}
+              styles={customStyles}
+              onChange={(e) => this.getScheduleByDate(e.value)}
+            />
+            <div className="left-title">
+              <div className="icon">
+                <AiOutlineSchedule />
+              </div>
+              <FormattedMessage id="patient.detail-doctor.schedule" />
             </div>
-            <FormattedMessage id="patient.detail-doctor.schedule" />
-          </div>
-          <div className="left-content">
-            {this.state.schedules.length > 0 ? (
-              <div className="schedule">
-                {this.state.schedules.map((schedule, index) => (
-                  <button key={index} className="schedule-btn">
-                    {this.props.language === LANGUAGES.EN
-                      ? schedule.timeTypeData.value_en
-                      : schedule.timeTypeData.value_vi}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div>
-                <FormattedMessage id="patient.detail-doctor.no-schedule" />
-              </div>
-            )}
-          </div>
-          <div className="mt-3">
-            Chọn <BsHandIndex /> và đặt (Phí đặt lịch 0đ)
-          </div>
-        </div>
-        {/* RIGHT - ADDRESS AND PRICE */}
-        <div className="right">
-          <div className="address">
-            <h3 className="schedule-title">
-              <FormattedMessage id="patient.detail-doctor.address" />
-            </h3>
-            <h4>{Doctor_Info?.nameClinic}</h4>
-            <p>{Doctor_Info?.addressClinic}</p>
-          </div>
-          <div className="session">
-            <h3 className="schedule-title">
-              <FormattedMessage id="patient.detail-doctor.price" />:{' '}
-              {language === LANGUAGES.EN ? (
-                <NumericFormat
-                  value={Doctor_Info?.priceTypeData?.value_en}
-                  suffix={'$'}
-                  displayType="text"
-                  thousandSeparator={true}
-                />
+            <div className="left-content">
+              {this.state.schedules.length > 0 ? (
+                <div className="schedule">
+                  {this.state.schedules.map((schedule, index) => (
+                    <button
+                      key={index}
+                      className="schedule-btn"
+                      onClick={() => this.handleScheduleClick(schedule)}
+                    >
+                      {this.props.language === LANGUAGES.EN
+                        ? schedule.timeTypeData.value_en
+                        : schedule.timeTypeData.value_vi}
+                    </button>
+                  ))}
+                </div>
               ) : (
-                <NumericFormat
-                  value={Doctor_Info?.priceTypeData?.value_vi}
-                  suffix={'VNĐ'}
-                  displayType="text"
-                  thousandSeparator={true}
-                />
-              )}
-              .
-            </h3>
-            {!this.state.isPriceDetailOpen && (
-              <button
-                className="btn btn-outline-secondary"
-                onClick={() =>
-                  this.setState({
-                    isPriceDetailOpen: !this.state.isPriceDetailOpen,
-                  })
-                }
-              >
-                <FormattedMessage id="patient.detail-doctor.see-in-detail" />
-              </button>
-            )}
-          </div>
-          {this.state.isPriceDetailOpen && (
-            <div className="mt-3">
-              <div className="price-detail">
-                <div className="price-detail-left">
-                  <h4>
-                    <FormattedMessage id="patient.detail-doctor.payment" />
-                  </h4>
-                  <p>
-                    <FormattedMessage id="patient.detail-doctor.priority" />{' '}
-                    {Doctor_Info.priceTypeData.value_en} USD
-                  </p>
-                </div>
                 <div>
-                  {language === LANGUAGES.EN ? (
-                    <NumericFormat
-                      value={Doctor_Info?.priceTypeData?.value_en}
-                      suffix={'$'}
-                      displayType="text"
-                      thousandSeparator={true}
-                    />
-                  ) : (
-                    <NumericFormat
-                      value={Doctor_Info?.priceTypeData?.value_vi}
-                      suffix={'VNĐ'}
-                      displayType="text"
-                      thousandSeparator={true}
-                    />
-                  )}
+                  <FormattedMessage id="patient.detail-doctor.no-schedule" />
                 </div>
-              </div>
-              <div>
-                <p>
-                  <FormattedMessage id="patient.detail-doctor.type_of_payment" />{' '}
-                  {language === LANGUAGES.EN
-                    ? Doctor_Info.paymentTypeData.value_en
-                    : Doctor_Info.paymentTypeData.value_vi}
-                </p>
+              )}
+            </div>
+            <div className="mt-3">
+              Chọn <BsHandIndex /> và đặt (Phí đặt lịch 0đ)
+            </div>
+          </div>
+          {/* RIGHT - ADDRESS AND PRICE */}
+          <div className="right">
+            <div className="address">
+              <h3 className="schedule-title">
+                <FormattedMessage id="patient.detail-doctor.address" />
+              </h3>
+              <h4>{Doctor_Info?.nameClinic}</h4>
+              <p>{Doctor_Info?.addressClinic}</p>
+            </div>
+            <div className="session">
+              <h3 className="schedule-title">
+                <FormattedMessage id="patient.detail-doctor.price" />:{' '}
+                {language === LANGUAGES.EN ? (
+                  <NumericFormat
+                    value={Doctor_Info?.priceTypeData?.value_en}
+                    suffix={'$'}
+                    displayType="text"
+                    thousandSeparator={true}
+                  />
+                ) : (
+                  <NumericFormat
+                    value={Doctor_Info?.priceTypeData?.value_vi}
+                    suffix={'VNĐ'}
+                    displayType="text"
+                    thousandSeparator={true}
+                  />
+                )}
+                .
+              </h3>
+              {!this.state.isPriceDetailOpen && (
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-outline-secondary"
                   onClick={() =>
                     this.setState({
                       isPriceDetailOpen: !this.state.isPriceDetailOpen,
                     })
                   }
                 >
-                  <FormattedMessage id="patient.detail-doctor.hide_price_detail" />
+                  <FormattedMessage id="patient.detail-doctor.see-in-detail" />
                 </button>
-              </div>
+              )}
             </div>
-          )}
-          {/* <div className="session">
-            <h3 className="schedule-title">
-              <FormattedMessage id="patient.detail-doctor.insurance" />
-            </h3>
-            <button className="btn btn-outline-secondary">
-              <FormattedMessage id="patient.detail-doctor.see-in-detail" />
-            </button>
-          </div> */}
+            {this.state.isPriceDetailOpen && (
+              <div className="mt-3">
+                <div className="price-detail">
+                  <div className="price-detail-left">
+                    <h4>
+                      <FormattedMessage id="patient.detail-doctor.payment" />
+                    </h4>
+                    <p>
+                      <FormattedMessage id="patient.detail-doctor.priority" />{' '}
+                      {Doctor_Info.priceTypeData.value_en} USD
+                    </p>
+                  </div>
+                  <div>
+                    {language === LANGUAGES.EN ? (
+                      <NumericFormat
+                        value={Doctor_Info?.priceTypeData?.value_en}
+                        suffix={'$'}
+                        displayType="text"
+                        thousandSeparator={true}
+                      />
+                    ) : (
+                      <NumericFormat
+                        value={Doctor_Info?.priceTypeData?.value_vi}
+                        suffix={'VNĐ'}
+                        displayType="text"
+                        thousandSeparator={true}
+                      />
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <p>
+                    <FormattedMessage id="patient.detail-doctor.type_of_payment" />{' '}
+                    {language === LANGUAGES.EN
+                      ? Doctor_Info.paymentTypeData.value_en
+                      : Doctor_Info.paymentTypeData.value_vi}
+                  </p>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() =>
+                      this.setState({
+                        isPriceDetailOpen: !this.state.isPriceDetailOpen,
+                      })
+                    }
+                  >
+                    <FormattedMessage id="patient.detail-doctor.hide_price_detail" />
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* <div className="session">
+              <h3 className="schedule-title">
+                <FormattedMessage id="patient.detail-doctor.insurance" />
+              </h3>
+              <button className="btn btn-outline-secondary">
+                <FormattedMessage id="patient.detail-doctor.see-in-detail" />
+              </button>
+            </div> */}
+          </div>
         </div>
-      </div>
+        <BookingModal
+          isModalOpen={this.state.isModalOpen}
+          scheduleData={this.state.modalData}
+          toggleModal={this.toggleModal}
+        />
+      </>
     )
   }
 }
