@@ -100,7 +100,11 @@
       "address": "Địa chỉ khám",
       "price": "Giá khám",
       "insurance": "Loại bảo hiểm áp dụng",
-      "see-in-detail": "Xem chi tiết"
+      "see-in-detail": "Xem chi tiết",
+      "payment": "Giá khám",
+      "priority": "Được ưu tiên khám trước khi đặt khám qua BookingCare. Giá khám cho người nước ngoài là",
+      "type_of_payment": "Người bệnh có thể thanh toán chi phí bằng hình thức",
+      "hide_price_detail": "Ẩn bảng giá"
     }
   }
 }

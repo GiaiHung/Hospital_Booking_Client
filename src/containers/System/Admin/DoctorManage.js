@@ -27,7 +27,7 @@ class DoctorManage extends Component {
       address: '',
       clinicName: '',
 
-      selectedDoctor: '',
+      selectedDoctor: {},
       contentHTML: '',
       contentMarkdown: '',
       hasOldData: false,
@@ -102,18 +102,61 @@ class DoctorManage extends Component {
         return element !== null
       }).length > 0
     ) {
-      this.setState({
-        description: doctor.Markdown.introduction,
-        contentHTML: doctor.Markdown.contentHTML,
-        contentMarkdown: doctor.Markdown.contentMarkdown,
-        hasOldData: true,
-      })
+      if (
+        Object.values(doctor.Doctor_Info).filter((element) => {
+          return element !== null
+        }).length > 0
+      ) {
+        const { priceTypeData, paymentTypeData, provinceTypeData } =
+          doctor.Doctor_Info
+        const selectedPrice = this.state.price.find(
+          (item) => item.value === priceTypeData.keyMap
+        )
+        const selectedPayment = this.state.payment.find(
+          (item) => item.value === paymentTypeData.keyMap
+        )
+        const selectedProvince = this.state.province.find(
+          (item) => item.value === provinceTypeData.keyMap
+        )
+
+        this.setState({
+          description: doctor.Markdown.introduction,
+          contentHTML: doctor.Markdown.contentHTML,
+          contentMarkdown: doctor.Markdown.contentMarkdown,
+          hasOldData: true,
+          selectedPrice: selectedPrice,
+          selectedProvince: selectedProvince,
+          selectedPayment: selectedPayment,
+          note: doctor.Doctor_Info.note,
+          address: doctor.Doctor_Info.addressClinic,
+          clinicName: doctor.Doctor_Info.nameClinic,
+        })
+      } else {
+        this.setState({
+          description: doctor.Markdown.introduction,
+          contentHTML: doctor.Markdown.contentHTML,
+          contentMarkdown: doctor.Markdown.contentMarkdown,
+          hasOldData: true,
+          selectedPrice: {},
+          selectedProvince: {},
+          selectedPayment: {},
+          note: '',
+          address: '',
+          clinicName: '',
+        })
+      }
     } else {
       this.setState({
         description: '',
         contentHTML: '',
         contentMarkdown: '',
         hasOldData: false,
+        selectedPrice: {},
+        selectedProvince: {},
+        selectedPayment: {},
+        note: '',
+        address: '',
+        clinicName: '',
       })
     }
   }
@@ -132,7 +175,6 @@ class DoctorManage extends Component {
       address,
       clinicName,
     } = this.state
-    console.log(selectedDoctor)
     await this.props.saveDoctorDescription({
       description,
       selectedDoctor,
@@ -151,7 +193,7 @@ class DoctorManage extends Component {
     })
     this.setState({
       description: '',
-      selectedDoctor: '',
+      selectedDoctor: {},
       contentHTML: '',
       contentMarkdown: '',
       hasOldData: false,
@@ -166,7 +208,6 @@ class DoctorManage extends Component {
 
   handleSelectFormat = (state, type) => {
     let array = []
-    console.log(state)
     const language = this.props.language
     if (state.length > 0) {
       state.map((item) => {
@@ -188,7 +229,6 @@ class DoctorManage extends Component {
     const stateName = name.name
     const copyState = { ...this.state }
     copyState[stateName] = selectedOption
-    console.log(selectedOption)
     this.setState({
       ...copyState,
     })
@@ -201,7 +241,6 @@ class DoctorManage extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="doctor-manage-container">
         <div className="title">
@@ -214,7 +253,7 @@ class DoctorManage extends Component {
             </label>
             <Select
               options={this.state.doctors}
-              // value={this.state.selectedDoctor}
+              value={this.state.selectedDoctor}
               name={'selectedDoctor'}
               onChange={this.handleOnSelectDoctor}
             />

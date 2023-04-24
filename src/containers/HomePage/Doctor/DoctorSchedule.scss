@@ -63,20 +63,20 @@
       font-size: 14px;
       color: #666;
       font-weight: bold;
-    }
-
-    .schedule-title {
-      text-transform: uppercase;
-      font-size: 14px;
-      color: #666;
-      font-weight: bold;
+      margin-top: 8px;
     }
 
     .address {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #cecece;
       h4,
       p {
         font-size: 13px;
         margin: 0;
+      }
+
+      h4 {
+        font-weight: 700;
       }
     }
 
@@ -84,9 +84,28 @@
       display: flex;
       gap: 5px;
       align-items: center;
+      margin-top: 8px;
 
       h3 {
         margin: 0;
+      }
+    }
+
+    .price-detail {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .price-detail-left {
+        flex: 1;
+
+        h4 {
+          font-size: 14px;
+        }
+
+        p {
+          font-size: 12px;
+        }
       }
     }
   }

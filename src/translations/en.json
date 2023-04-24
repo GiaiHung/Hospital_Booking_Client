@@ -100,7 +100,11 @@
       "address": "Address",
       "price": "Price",
       "insurance": "Applied insurance",
-      "see-in-detail": "See in detail"
+      "see-in-detail": "See in detail",
+      "payment": "Payment",
+      "priority": "Get priority medical care before visiting through BookingCare. The cost of medical examination for foreigners is",
+      "type_of_payment": "The patient can pay the cost in the form of",
+      "hide_price_detail": "Hide price detail"
     }
   }
 }
