@@ -105,6 +105,20 @@
       "priority": "Được ưu tiên khám trước khi đặt khám qua BookingCare. Giá khám cho người nước ngoài là",
       "type_of_payment": "Người bệnh có thể thanh toán chi phí bằng hình thức",
       "hide_price_detail": "Ẩn bảng giá"
+    },
+    "booking-modal": {
+      "booking": "Đặt lịch khám",
+      "price": "Giá khám",
+      "info": "Thông tin khám bệnh",
+      "name": "Họ và tên",
+      "phone": "Số điện thoại",
+      "address": "Địa chỉ",
+      "email": "Email",
+      "reasons": "Lý do khám",
+      "gender": "Giới tính",
+      "birthday": "Ngày sinh",
+      "confirm": "Xác nhận",
+      "cancel": "Hủy"
     }
   }
 }

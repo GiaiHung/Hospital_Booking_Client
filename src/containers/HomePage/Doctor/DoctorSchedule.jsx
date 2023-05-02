@@ -266,6 +266,7 @@ class DoctorSchedule extends Component {
         <BookingModal
           isModalOpen={this.state.isModalOpen}
           scheduleData={this.state.modalData}
+          doctorName={this.props.doctorName}
           toggleModal={this.toggleModal}
         />
       </>

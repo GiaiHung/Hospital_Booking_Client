@@ -61,7 +61,7 @@ class DoctorDetail extends Component {
               </div>
             </div>
           </div>
-          <DoctorSchedule doctor={this.state.doctor} />
+          <DoctorSchedule doctor={this.state.doctor} doctorName={name} />
           <div className="detail">
             <div
               dangerouslySetInnerHTML={{
