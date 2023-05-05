@@ -1,0 +1,16 @@
+.verify-booking {
+  .content {
+    margin-top: 80px;
+    box-shadow: none;
+    font-size: 25px;
+    text-align: center;
+    font-weight: 500;
+    &.success {
+      color: rgb(3, 206, 3);
+    }
+
+    &.failed {
+      color: red;
+    }
+  }
+}
