@@ -6,6 +6,7 @@ import UserManage from '../containers/System/UserManage'
 import UserRedux from '../containers/System/Admin/UserRedux'
 import DoctorManage from '../containers/System/Admin/DoctorManage'
 import DoctorSchedule from '../containers/System/Admin/DoctorSchedule'
+import SpecialtyManage from '../containers/System/Specialty/SpecialtyManage'
 
 class System extends Component {
   render() {
@@ -21,6 +22,10 @@ class System extends Component {
             <Route
               path="/system/manage-doctor-schedule"
               component={DoctorSchedule}
+            />
+            <Route
+              path="/system/manage-specialty"
+              component={SpecialtyManage}
             />
             <Route
               component={() => {
