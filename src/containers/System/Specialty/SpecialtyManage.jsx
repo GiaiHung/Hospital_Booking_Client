@@ -79,6 +79,7 @@ class SpecialtyManage extends Component {
             <input
               placeholder="Tên chuyên khoa"
               className="form-control"
+              value={this.state.name}
               onChange={(e) => this.handleOnChangeInput(e.target.value, 'name')}
             />
           </div>
