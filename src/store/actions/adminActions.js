@@ -1,6 +1,22 @@
 import { toast } from 'react-toastify'
 import actionTypes from './actionTypes'
 import axios from '../../axios'
+import {
+  createUserFailed,
+  createUserSuccess,
+  deleteUserFailed,
+  deleteUserSuccess,
+  editUserFailed,
+  editUserSuccess,
+  fetchGenderFailed,
+  fetchGenderSuccess,
+  fetchPositionFailed,
+  fetchPositionSuccess,
+  fetchRoleFailed,
+  fetchRoleSuccess,
+  getUsersFailed,
+  getUsersSuccess,
+} from './adminActionsHelper'
 
 const fetchReduxData = (type) => {
   return async (dispatch, getState) => {
@@ -72,70 +88,21 @@ const fetchReduxData = (type) => {
   }
 }
 
-// const fetchGenderStart = () => ({
-//   type: actionTypes.FETCH_GENDER_START,
-// })
-
-const fetchGenderSuccess = (genderData) => ({
-  type: actionTypes.FETCH_GENDER_SUCCESS,
-  data: genderData,
-})
-
-const fetchGenderFailed = () => ({
-  type: actionTypes.FETCH_GENDER_FAILED,
-})
-
-const fetchPositionSuccess = (positionData) => ({
-  type: actionTypes.FETCH_POSITION_SUCCESS,
-  data: positionData,
-})
-
-const fetchPositionFailed = () => ({
-  type: actionTypes.FETCH_POSITION_FAILED,
-})
-
-const fetchRoleSuccess = (roleData) => ({
-  type: actionTypes.FETCH_ROLE_SUCCESS,
-  data: roleData,
-})
-
-const fetchRoleFailed = () => ({
-  type: actionTypes.FETCH_ROLE_FAILED,
-})
-
-const createUserSuccess = (data) => ({
-  type: actionTypes.CREATE_USER_SUCCESS,
-  data,
-})
-
-const createUserFailed = () => ({
-  type: actionTypes.CREATE_USER_FAILED,
-})
-
-const editUserSuccess = () => ({
-  type: actionTypes.EDIT_USER_SUCCESS,
-})
-
-const editUserFailed = () => ({
-  type: actionTypes.EDIT_USER_FAILED,
-})
-
-const getUsersSuccess = (data) => ({
-  type: actionTypes.GET_USERS_SUCCESS,
-  data,
-})
-
-const getUsersFailed = () => ({
-  type: actionTypes.GET_USER_FAILED,
-})
-
-const deleteUserSuccess = () => ({
-  type: actionTypes.DELETE_USER_SUCCESS,
-})
-
-const deleteUserFailed = () => ({
-  type: actionTypes.DELETE_USER_FAILED,
-})
+const getDoctorSpecialty = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.get('/api/v1/specialty')
+      if (res.data.status === 'success') {
+        dispatch({
+          type: actionTypes.GET_DOCTOR_SPECIALTY_SUCCESS,
+          data: res.data.data,
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 // CREATE
 const createUser = (data) => {
@@ -202,4 +169,11 @@ const deleteUser = (id) => {
   }
 }
 
-export { fetchReduxData, createUser, getAllUsers, editUser, deleteUser }
+export {
+  fetchReduxData,
+  createUser,
+  getAllUsers,
+  editUser,
+  deleteUser,
+  getDoctorSpecialty,
+}

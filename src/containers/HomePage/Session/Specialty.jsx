@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import Slider from 'react-slick'
 import axios from '../../../axios'
+import { Link } from 'react-router-dom'
 
 class Specialty extends Component {
   constructor(props) {
@@ -45,7 +46,11 @@ class Specialty extends Component {
                   this.state.specialties.map((specialty) => {
                     const { id, name, image } = specialty
                     return (
-                      <div className="content" key={id}>
+                      <Link
+                        className="content"
+                        key={id}
+                        to={`/detail-specialty/${id}`}
+                      >
                         <div
                           className="img"
                           style={{
@@ -56,7 +61,7 @@ class Specialty extends Component {
                           }}
                         ></div>
                         <h3>{name}</h3>
-                      </div>
+                      </Link>
                     )
                   })}
                 {/* <div className="content">

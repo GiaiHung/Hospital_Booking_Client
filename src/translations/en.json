@@ -84,7 +84,9 @@
     "province": "Province",
     "clinic_name": "Clinic name",
     "address": "Address",
-    "note": "Note"
+    "note": "Note",
+    "specialty": "Specialty",
+    "clinic": "Clinic"
   },
   "doctor-schedule": {
     "title": "Manage doctor schedule",

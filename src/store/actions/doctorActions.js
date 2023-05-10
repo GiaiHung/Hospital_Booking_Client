@@ -30,7 +30,8 @@ const saveDoctor = (data) => {
         toast.success('Doctor updated successfully')
       }
     } catch (error) {
-      toast.error('Save doctor failed')
+      console.log(error)
+      toast.error(error.response.data.message)
       dispatch({
         type: actionTypes.SAVE_DOCTOR_FAILED,
       })

@@ -9,6 +9,7 @@ const initialState = {
   price: [],
   payment: [],
   province: [],
+  specialty: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -85,6 +86,10 @@ const adminReducer = (state = initialState, action) => {
       return { ...state }
     case actionTypes.GET_DOCTOR_PROVINCE_SUCCESS:
       state.province = action.data
+      return { ...state }
+    // DOCTOR_SPECIALTY
+    case actionTypes.GET_DOCTOR_SPECIALTY_SUCCESS:
+      state.specialty = action.data
       return { ...state }
     default:
       console.log('Hello default')

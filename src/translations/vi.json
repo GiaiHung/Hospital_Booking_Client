@@ -84,7 +84,9 @@
     "province": "Tỉnh thành",
     "clinic_name": "Tên bác sĩ",
     "address": "Địa chỉ",
-    "note": "Ghi chú"
+    "note": "Ghi chú",
+    "specialty": "Chuyên khoa",
+    "clinic": "Tên phòng khám"
   },
   "doctor-schedule": {
     "title": "Quản lý lịch khám bệnh của bác sĩ",

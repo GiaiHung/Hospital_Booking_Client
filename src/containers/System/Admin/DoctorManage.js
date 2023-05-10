@@ -11,7 +11,7 @@ import './DoctorManage.scss'
 import { getAllDoctors, saveDoctor } from '../../../store/actions/doctorActions'
 import { getDoctorDetail } from '../../../store/actions/doctorActions'
 import { LANGUAGES, USER_REDUX_ACTIONS } from '../../../utils/constant'
-import { fetchReduxData } from '../../../store/actions'
+import { fetchReduxData, getDoctorSpecialty } from '../../../store/actions'
 
 const mdParser = new MarkdownIt()
 
@@ -26,8 +26,12 @@ class DoctorManage extends Component {
       note: '',
       address: '',
       clinicName: '',
+      clinicId: '',
+      specialtyId: '',
 
       selectedDoctor: {},
+      selectedSpecialty: {},
+      selectedClinic: {},
       contentHTML: '',
       contentMarkdown: '',
       hasOldData: false,
@@ -36,6 +40,8 @@ class DoctorManage extends Component {
       price: [],
       payment: [],
       province: [],
+      specialty: [],
+      clinic: [],
     }
   }
 
@@ -44,6 +50,7 @@ class DoctorManage extends Component {
     this.props.getDoctorProvince()
     this.props.getDoctorPrice()
     this.props.getDoctorPayment()
+    this.props.getSpecialty()
   }
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
@@ -71,16 +78,30 @@ class DoctorManage extends Component {
         payment,
       })
     }
+    if (prevProps.specialty !== this.props.specialty) {
+      const specialty = this.handleSelectFormat(
+        this.props.specialty,
+        'specialty'
+      )
+      this.setState({
+        specialty,
+      })
+    }
     if (prevProps.language !== this.props.language) {
       const doctors = this.handleSelectFormat(this.props.doctors, 'USER')
       const province = this.handleSelectFormat(this.props.province)
       const price = this.handleSelectFormat(this.props.price)
       const payment = this.handleSelectFormat(this.props.payment)
+      const specialty = this.handleSelectFormat(
+        this.props.specialty,
+        'specialty'
+      )
       this.setState({
         doctors,
         province,
         price,
         payment,
+        specialty,
       })
     }
   }
@@ -107,8 +128,12 @@ class DoctorManage extends Component {
           return element !== null
         }).length > 0
       ) {
-        const { priceTypeData, paymentTypeData, provinceTypeData } =
-          doctor.Doctor_Info
+        const {
+          priceTypeData,
+          paymentTypeData,
+          provinceTypeData,
+          specialtyData,
+        } = doctor.Doctor_Info
         const selectedPrice = this.state.price.find(
           (item) => item.value === priceTypeData.keyMap
         )
@@ -118,15 +143,19 @@ class DoctorManage extends Component {
         const selectedProvince = this.state.province.find(
           (item) => item.value === provinceTypeData.keyMap
         )
+        const selectedSpecialty = this.state.specialty.find(
+          (item) => item.value === specialtyData.id
+        )
 
         this.setState({
           description: doctor.Markdown.introduction,
           contentHTML: doctor.Markdown.contentHTML,
           contentMarkdown: doctor.Markdown.contentMarkdown,
           hasOldData: true,
-          selectedPrice: selectedPrice,
-          selectedProvince: selectedProvince,
-          selectedPayment: selectedPayment,
+          selectedPrice,
+          selectedProvince,
+          selectedPayment,
+          selectedSpecialty,
           note: doctor.Doctor_Info.note,
           address: doctor.Doctor_Info.addressClinic,
           clinicName: doctor.Doctor_Info.nameClinic,
@@ -140,6 +169,8 @@ class DoctorManage extends Component {
           selectedPrice: {},
           selectedProvince: {},
           selectedPayment: {},
+          selectedSpecialty: {},
+          selectedClinic: {},
           note: '',
           address: '',
           clinicName: '',
@@ -171,6 +202,8 @@ class DoctorManage extends Component {
       selectedPrice,
       selectedProvince,
       selectedPayment,
+      selectedSpecialty,
+      // selectedClinic,
       note,
       address,
       clinicName,
@@ -190,6 +223,8 @@ class DoctorManage extends Component {
       note,
       address,
       clinicName,
+      specialtyId: selectedSpecialty.value,
+      // clinicId: selectedClinic.value,
     })
     this.setState({
       description: '',
@@ -200,6 +235,7 @@ class DoctorManage extends Component {
       selectedPrice: {},
       selectedProvince: {},
       selectedPayment: {},
+      selectedSpecialty: {},
       note: '',
       address: '',
       clinicName: '',
@@ -209,6 +245,17 @@ class DoctorManage extends Component {
   handleSelectFormat = (state, type) => {
     let array = []
     const language = this.props.language
+    // Because specialty didn't create the vietnamese and english data
+    if (type === 'specialty' && state.length > 0) {
+      state.map((item) => {
+        let object = {}
+        object.label = item.name
+        object.value = item.id
+        array.push(object)
+        return object
+      })
+      return array
+    }
     if (state.length > 0) {
       state.map((item) => {
         let object = {}
@@ -344,6 +391,31 @@ class DoctorManage extends Component {
               onChange={(e) => this.handleOnChangeText(e, 'note')}
             />
           </div>
+          {/* Specialty */}
+          <div className="col-6 form-group">
+            <label>
+              <FormattedMessage id="manage-doctor.specialty" />
+            </label>
+            <Select
+              name="selectedSpecialty"
+              placeholder={<FormattedMessage id="manage-doctor.specialty" />}
+              value={this.state.selectedSpecialty}
+              options={this.state.specialty}
+              onChange={this.handleSelectDoctorInfor}
+            />
+          </div>
+          {/* Clinic */}
+          <div className="col-6 form-group">
+            <label>
+              <FormattedMessage id="manage-doctor.clinic" />
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.clinic}
+              onChange={(e) => this.handleOnChangeText(e, 'clinicId')}
+            />
+          </div>
         </div>
         <MdEditor
           style={{ height: '500px' }}
@@ -367,11 +439,12 @@ class DoctorManage extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    language: state.app.language,
     doctors: state.home.doctors,
     price: state.admin.price,
     payment: state.admin.payment,
     province: state.admin.province,
-    language: state.app.language,
+    specialty: state.admin.specialty,
   }
 }
 
@@ -382,6 +455,7 @@ const mapDispatchToProps = (dispatch) => {
     getDoctorPrice: () => dispatch(fetchReduxData('price')),
     getDoctorPayment: () => dispatch(fetchReduxData('payment')),
     getDoctorProvince: () => dispatch(fetchReduxData('province')),
+    getSpecialty: () => dispatch(getDoctorSpecialty()),
   }
 }
 
