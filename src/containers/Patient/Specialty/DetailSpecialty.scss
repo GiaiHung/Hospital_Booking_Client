@@ -1,5 +1,23 @@
 .ds-container {
   .ds-body {
+    margin: 0 50px;
     margin-top: 80px;
+  }
+
+  .description {
+  }
+
+  .each-doctor {
+    display: flex;
+
+    .ds-left {
+      width: 50%;
+      height: 350px;
+      border: 1px solid red;
+    }
+    .ds-right {
+      width: 50%;
+      border: 1px solid blue;
+    }
   }
 }

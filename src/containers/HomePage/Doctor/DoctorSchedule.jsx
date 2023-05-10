@@ -118,13 +118,24 @@ class DoctorSchedule extends Component {
     }
 
     const { Doctor_Info } = this.props.doctor
-    const { language } = this.props
+    const { language, column } = this.props
 
     return (
       <>
-        <div className="schedule-container">
+        <div
+          className="schedule-container"
+          style={{
+            flexDirection: column ? 'column' : 'row',
+            margin: column ? '20px' : '30px 100px',
+          }}
+        >
           {/* LEFT - ALL SCHEDULE */}
-          <div className="left">
+          <div
+            className="sc-left"
+            style={{
+              width: column ? '100%' : '70%',
+            }}
+          >
             <Select
               options={allDaysFormatted}
               styles={customStyles}
@@ -162,7 +173,16 @@ class DoctorSchedule extends Component {
             </div>
           </div>
           {/* RIGHT - ADDRESS AND PRICE */}
-          <div className="right">
+          <div
+            className="sc-right"
+            style={{
+              paddingLeft: column ? '0px' : '15px',
+              marginTop: column ? '10px' : '',
+              borderLeft: !column ? '1px solid rgba(207, 207, 207)' : '',
+              borderTop: column ? '1px solid rgba(207, 207, 207)' : '',
+              width: column ? '100%' : '30%',
+            }}
+          >
             <div className="address">
               <h3 className="schedule-title">
                 <FormattedMessage id="patient.detail-doctor.address" />

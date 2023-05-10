@@ -142,7 +142,6 @@ class BookingModal extends Component {
     if (!_.isEmpty(scheduleData)) {
       id = scheduleData.doctorId
     }
-    console.log(scheduleData)
 
     return (
       <div>

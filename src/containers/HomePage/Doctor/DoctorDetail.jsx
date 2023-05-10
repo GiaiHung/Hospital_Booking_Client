@@ -5,6 +5,7 @@ import HomeNavbar from '../HomeNavbar'
 import { getDoctorDetail } from '../../../store/actions/doctorActions'
 import { LANGUAGES } from '../../../utils'
 import DoctorSchedule from './DoctorSchedule'
+import DoctorIntro from './DoctorIntro'
 
 class DoctorDetail extends Component {
   constructor(props) {
@@ -27,8 +28,7 @@ class DoctorDetail extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {}
 
   render() {
-    const { firstName, lastName, image, positionData, Markdown } =
-      this.state.doctor
+    const { firstName, lastName, positionData, Markdown } = this.state.doctor
     let name = ''
     if (this.state.doctor) {
       name =
@@ -40,27 +40,7 @@ class DoctorDetail extends Component {
       <div>
         <HomeNavbar />
         <div className="doctor-detail-container">
-          <div className="intro">
-            {this.state.doctor && image && (
-              <div
-                className="left"
-                style={{
-                  backgroundImage: `url(${image})`,
-                  backgroundPosition: 'center',
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              ></div>
-            )}
-            <div className="right">
-              <div className="up">
-                <h2>{name}</h2>
-              </div>
-              <div className="down">
-                <p>{Markdown?.introduction}</p>
-              </div>
-            </div>
-          </div>
+          <DoctorIntro doctor={this.state.doctor} name={name} />
           <DoctorSchedule doctor={this.state.doctor} doctorName={name} />
           <div className="detail">
             <div

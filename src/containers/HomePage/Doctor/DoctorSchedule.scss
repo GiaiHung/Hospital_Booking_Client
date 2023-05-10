@@ -1,9 +1,7 @@
 .schedule-container {
   display: flex;
-  margin: 30px 100px;
 
-  .left {
-    width: 70%;
+  .sc-left {
     padding-right: 30px;
 
     .left-title {
@@ -50,10 +48,7 @@
     }
   }
 
-  .right {
-    width: 30%;
-    padding-left: 15px;
-    border-left: 1px solid rgb(212, 212, 212);
+  .sc-right {
     display: flex;
     flex-direction: column;
     justify-content: center;
