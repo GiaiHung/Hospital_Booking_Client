@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { LANGUAGES } from '../../../utils'
 
 class DoctorIntro extends Component {
   constructor(props) {
@@ -8,8 +10,8 @@ class DoctorIntro extends Component {
   }
 
   render() {
-    const { name } = this.props
-    const { image, Markdown } = this.props.doctor
+    const { language, name, isSpecialty } = this.props
+    const { id, image, Markdown } = this.props.doctor
     let imageBase64 = ''
     if (image) {
       imageBase64 = new Buffer(image, 'base64').toString('binary')
@@ -18,7 +20,7 @@ class DoctorIntro extends Component {
       <div
         className="intro"
         style={{
-          margin: 'auto 0',
+          margin: isSpecialty ? 'auto 0' : 'auto 100px',
           height: '100%',
         }}
       >
@@ -26,11 +28,11 @@ class DoctorIntro extends Component {
           <div
             className="intro-left"
             style={{
-              backgroundImage: `url(${imageBase64})`,
+              backgroundImage: `url(${isSpecialty ? imageBase64 : image})`,
               backgroundPosition: 'center',
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
-              width: '30%',
+              width: isSpecialty ? '30%' : '',
               height: '150px',
             }}
           ></div>
@@ -42,6 +44,13 @@ class DoctorIntro extends Component {
           <div className="down">
             <p>{Markdown?.introduction}</p>
           </div>
+          {isSpecialty && (
+            <Link to={`/detail-doctor/${id}`}>
+              <button className="btn btn-outline-primary">
+                {language === LANGUAGES.EN ? 'All' : 'Xem thêm'}
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     )
@@ -49,7 +58,9 @@ class DoctorIntro extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    language: state.app.language,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

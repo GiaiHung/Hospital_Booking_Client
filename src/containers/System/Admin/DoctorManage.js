@@ -185,6 +185,7 @@ class DoctorManage extends Component {
         selectedPrice: {},
         selectedProvince: {},
         selectedPayment: {},
+        selectedSpecialty: {},
         note: '',
         address: '',
         clinicName: '',
