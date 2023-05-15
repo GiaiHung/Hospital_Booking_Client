@@ -22,6 +22,7 @@ import HomePage from './HomePage/HomePage'
 import DoctorDetail from './HomePage/Doctor/DoctorDetail'
 import VerifyBooking from './Patient/VerifyBooking'
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty'
+import ClinicDetail from './Clinics/ClinicDetail'
 
 class App extends Component {
   handlePersistorState = () => {
@@ -65,6 +66,7 @@ class App extends Component {
                     path={path.DETAIL_SPECIALTY}
                     component={DetailSpecialty}
                   />
+                  <Route path={path.DETAIL_CLINIC} component={ClinicDetail} />
                   <Route path={path.VERIFY_BOOKING} component={VerifyBooking} />
                 </Switch>
               </CustomScrollbars>

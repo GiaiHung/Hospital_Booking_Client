@@ -29,10 +29,10 @@ class DoctorIntro extends Component {
             className="intro-left"
             style={{
               backgroundImage: `url(${isSpecialty ? imageBase64 : image})`,
-              backgroundPosition: 'center',
+              backgroundPosition: 'left',
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
-              width: isSpecialty ? '30%' : '',
+              width: isSpecialty ? '200px' : '',
               height: '150px',
             }}
           ></div>

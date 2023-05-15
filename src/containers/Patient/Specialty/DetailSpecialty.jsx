@@ -55,15 +55,15 @@ class DetailSpecialty extends Component {
       }
 
       // Get doctors by specialty
-      const array = []
+      const doctors = []
       this.state.doctorIdArray.map(async (id, index) => {
         const res = await axios.get(`/api/v1/doctor/${id}`)
         if (res.data.status === 'success') {
-          array.push(res.data.data)
+          doctors.push(res.data.data)
         }
         if (index === this.state.doctorIdArray.length - 1) {
           this.setState({
-            doctors: array,
+            doctors: doctors,
           })
         }
       })
@@ -131,7 +131,7 @@ class DetailSpecialty extends Component {
                       isSpecialty={true}
                     />
                   </div>
-                  <div className="ds-right">
+                  <div className="ds-right" style={{ marginLeft: '20px' }}>
                     <DoctorSchedule
                       doctor={doctor}
                       doctorName={name}

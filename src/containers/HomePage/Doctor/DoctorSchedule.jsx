@@ -126,7 +126,7 @@ class DoctorSchedule extends Component {
           className="schedule-container"
           style={{
             flexDirection: column ? 'column' : 'row',
-            margin: column ? '20px' : '30px 100px',
+            margin: column ? '20px 0' : '30px 100px',
           }}
         >
           {/* LEFT - ALL SCHEDULE */}

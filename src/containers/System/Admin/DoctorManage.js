@@ -11,7 +11,11 @@ import './DoctorManage.scss'
 import { getAllDoctors, saveDoctor } from '../../../store/actions/doctorActions'
 import { getDoctorDetail } from '../../../store/actions/doctorActions'
 import { LANGUAGES, USER_REDUX_ACTIONS } from '../../../utils/constant'
-import { fetchReduxData, getDoctorSpecialty } from '../../../store/actions'
+import {
+  fetchReduxData,
+  getDoctorClinic,
+  getDoctorSpecialty,
+} from '../../../store/actions'
 
 const mdParser = new MarkdownIt()
 
@@ -51,6 +55,7 @@ class DoctorManage extends Component {
     this.props.getDoctorPrice()
     this.props.getDoctorPayment()
     this.props.getSpecialty()
+    this.props.getClinic()
   }
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
@@ -79,12 +84,15 @@ class DoctorManage extends Component {
       })
     }
     if (prevProps.specialty !== this.props.specialty) {
-      const specialty = this.handleSelectFormat(
-        this.props.specialty,
-        'specialty'
-      )
+      const specialty = this.handleSelectFormat(this.props.specialty, 'mapById')
       this.setState({
         specialty,
+      })
+    }
+    if (prevProps.clinic !== this.props.clinic) {
+      const clinic = this.handleSelectFormat(this.props.clinic, 'mapById')
+      this.setState({
+        clinic,
       })
     }
     if (prevProps.language !== this.props.language) {
@@ -92,10 +100,7 @@ class DoctorManage extends Component {
       const province = this.handleSelectFormat(this.props.province)
       const price = this.handleSelectFormat(this.props.price)
       const payment = this.handleSelectFormat(this.props.payment)
-      const specialty = this.handleSelectFormat(
-        this.props.specialty,
-        'specialty'
-      )
+      const specialty = this.handleSelectFormat(this.props.specialty, 'mapById')
       this.setState({
         doctors,
         province,
@@ -133,6 +138,7 @@ class DoctorManage extends Component {
           paymentTypeData,
           provinceTypeData,
           specialtyData,
+          clinicId,
         } = doctor.Doctor_Info
         const selectedPrice = this.state.price.find(
           (item) => item.value === priceTypeData.keyMap
@@ -146,6 +152,10 @@ class DoctorManage extends Component {
         const selectedSpecialty = this.state.specialty.find(
           (item) => item.value === specialtyData.id
         )
+        const selectedClinic = this.state.clinic.find(
+          (item) => item.value === clinicId
+        )
+        console.log('Check selected clinic ', selectedClinic)
 
         this.setState({
           description: doctor.Markdown.introduction,
@@ -156,6 +166,7 @@ class DoctorManage extends Component {
           selectedProvince,
           selectedPayment,
           selectedSpecialty,
+          selectedClinic: selectedClinic || {},
           note: doctor.Doctor_Info.note,
           address: doctor.Doctor_Info.addressClinic,
           clinicName: doctor.Doctor_Info.nameClinic,
@@ -204,7 +215,7 @@ class DoctorManage extends Component {
       selectedProvince,
       selectedPayment,
       selectedSpecialty,
-      // selectedClinic,
+      selectedClinic,
       note,
       address,
       clinicName,
@@ -225,7 +236,7 @@ class DoctorManage extends Component {
       address,
       clinicName,
       specialtyId: selectedSpecialty.value,
-      // clinicId: selectedClinic.value,
+      clinicId: selectedClinic.value,
     })
     this.setState({
       description: '',
@@ -237,6 +248,7 @@ class DoctorManage extends Component {
       selectedProvince: {},
       selectedPayment: {},
       selectedSpecialty: {},
+      selectedClinic: {},
       note: '',
       address: '',
       clinicName: '',
@@ -246,8 +258,8 @@ class DoctorManage extends Component {
   handleSelectFormat = (state, type) => {
     let array = []
     const language = this.props.language
-    // Because specialty didn't create the vietnamese and english data
-    if (type === 'specialty' && state.length > 0) {
+    // Because mapById didn't create the vietnamese and english data
+    if (type === 'mapById' && state.length > 0) {
       state.map((item) => {
         let object = {}
         object.label = item.name
@@ -289,6 +301,7 @@ class DoctorManage extends Component {
   }
 
   render() {
+    console.log(this.state.selectedClinic)
     return (
       <div className="doctor-manage-container">
         <div className="title">
@@ -410,11 +423,12 @@ class DoctorManage extends Component {
             <label>
               <FormattedMessage id="manage-doctor.clinic" />
             </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.clinic}
-              onChange={(e) => this.handleOnChangeText(e, 'clinicId')}
+            <Select
+              name="selectedClinic"
+              placeholder={<FormattedMessage id="manage-doctor.clinic" />}
+              value={this.state.selectedClinic}
+              options={this.state.clinic}
+              onChange={this.handleSelectDoctorInfor}
             />
           </div>
         </div>
@@ -446,6 +460,7 @@ const mapStateToProps = (state) => {
     payment: state.admin.payment,
     province: state.admin.province,
     specialty: state.admin.specialty,
+    clinic: state.admin.clinic,
   }
 }
 
@@ -457,6 +472,7 @@ const mapDispatchToProps = (dispatch) => {
     getDoctorPayment: () => dispatch(fetchReduxData('payment')),
     getDoctorProvince: () => dispatch(fetchReduxData('province')),
     getSpecialty: () => dispatch(getDoctorSpecialty()),
+    getClinic: () => dispatch(getDoctorClinic()),
   }
 }
 

@@ -4,17 +4,18 @@ import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import { toast } from 'react-toastify'
 import axios from '../../../axios'
-import './SpecialtyManage.scss'
-import { CommonUtils } from '../../../utils'
+import './ClinicManage.scss'
+import { CommonUtils, LANGUAGES } from '../../../utils'
 import { FormattedMessage } from 'react-intl'
 
 const mdParser = new MarkdownIt()
 
-class SpecialtyManage extends Component {
+class ClinicManage extends Component {
   constructor(props) {
     super(props)
     this.state = {
       name: '',
+      address: '',
       imageBase64: '',
       contentHTML: '',
       contentMarkdown: '',
@@ -49,12 +50,13 @@ class SpecialtyManage extends Component {
 
   handleSaveSpecialty = async () => {
     try {
-      const res = await axios.post('/api/v1/specialty', { ...this.state })
+      const res = await axios.post('/api/v1/clinic', { ...this.state })
       if (res.data.status === 'success') {
         toast.success(res.data.message)
       }
       this.setState({
         name: '',
+        address: '',
         imageBase64: '',
         contentHTML: '',
         contentMarkdown: '',
@@ -66,17 +68,19 @@ class SpecialtyManage extends Component {
 
   render() {
     return (
-      <div className="ms-container">
+      <div className="mc-container">
         <div className="title">
-          <FormattedMessage id="manage-specialty.title" />
+          <FormattedMessage id="manage-clinic.title" />
         </div>
         <div className="row mt-3">
           <div className="col-6 form-group">
             <label>
-              <FormattedMessage id="manage-specialty.name" />
+              <FormattedMessage id="manage-clinic.name" />
             </label>
             <input
-              placeholder="..."
+              placeholder={
+                this.props.language === LANGUAGES.EN ? 'Name' : 'Tên phòng khám'
+              }
               className="form-control"
               value={this.state.name}
               onChange={(e) => this.handleOnChangeInput(e.target.value, 'name')}
@@ -84,12 +88,28 @@ class SpecialtyManage extends Component {
           </div>
           <div className="col-6 form-group">
             <label>
-              <FormattedMessage id="manage-specialty.image" />
+              <FormattedMessage id="manage-clinic.image" />
             </label>
             <input
               type="file"
+              placeholder="Ảnh chuyên khoa"
               className="form-control-file"
               onChange={(e) => this.handleUploadImage(e)}
+            />
+          </div>
+          <div className="col-6 form-group">
+            <label>
+              <FormattedMessage id="manage-clinic.address" />
+            </label>
+            <input
+              placeholder={
+                this.props.language === LANGUAGES.EN ? 'Address' : 'Địa chỉ'
+              }
+              className="form-control"
+              value={this.state.address}
+              onChange={(e) =>
+                this.handleOnChangeInput(e.target.value, 'address')
+              }
             />
           </div>
         </div>
@@ -101,21 +121,25 @@ class SpecialtyManage extends Component {
             onChange={this.handleEditorChange}
           />
         </div>
-        <button className="btn btn-primary" onClick={this.handleSaveSpecialty}>
-          <FormattedMessage id="manage-specialty.save" />
+        <button
+          className="btn btn-primary px-4 my-3"
+          onClick={this.handleSaveSpecialty}
+        >
+          <FormattedMessage id="manage-clinic.save" />
         </button>
-        <div className="ms-all"></div>
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    language: state.app.language,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpecialtyManage)
+export default connect(mapStateToProps, mapDispatchToProps)(ClinicManage)

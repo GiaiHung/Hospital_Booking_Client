@@ -122,5 +122,18 @@
       "confirm": "Xác nhận",
       "cancel": "Hủy"
     }
+  },
+  "manage-specialty": {
+    "title": "Tạo chuyên khoa",
+    "name": "Tên chuyên khoa",
+    "image": "Ảnh chuyên khoa",
+    "save": "Lưu"
+  },
+  "manage-clinic": {
+    "title": "Tạo phòng khám",
+    "address": "Địa chỉ phòng khám",
+    "name": "Tên phòng khám",
+    "image": "Ảnh phòng khám",
+    "save": "Lưu"
   }
 }

@@ -2,9 +2,27 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import Slider from 'react-slick'
+import { Link } from 'react-router-dom'
+import axios from '../../../axios'
 
 class MedicalFacility extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      clinics: [],
+    }
+  }
+  async componentDidMount() {
+    const res = await axios.get('/api/v1/clinic')
+    if (res.data.status === 'success') {
+      this.setState({
+        clinics: res.data.data,
+      })
+    }
+  }
+
   render() {
+    const { clinics } = this.state
     return (
       <div className="section-share-container">
         <div className="section-share">
@@ -19,30 +37,31 @@ class MedicalFacility extends Component {
             </div>
             <div className="body">
               <Slider {...this.props.settings}>
-                <div className="content">
-                  <div className="img facility-img"></div>
-                  <h3>Trung tâm mindcare 1</h3>
-                </div>
-                <div className="content">
-                  <div className="img facility-img"></div>
-                  <h3>Trung tâm mindcare 2</h3>
-                </div>
-                <div className="content">
-                  <div className="img facility-img"></div>
-                  <h3>Trung tâm mindcare 3</h3>
-                </div>
-                <div className="content">
-                  <div className="img facility-img"></div>
-                  <h3>Trung tâm mindcare 4</h3>
-                </div>
-                <div className="content">
-                  <div className="img facility-img"></div>
-                  <h3>Trung tâm mindcare 5</h3>
-                </div>
-                <div className="content">
-                  <div className="img facility-img"></div>
-                  <h3>Trung tâm mindcare 6</h3>
-                </div>
+                {clinics.length > 0 &&
+                  clinics.map((clinic) => {
+                    let imageBase64 = ''
+                    if (clinic.image) {
+                      imageBase64 = new Buffer(clinic.image, 'base64').toString(
+                        'binary'
+                      )
+                    }
+                    return (
+                      <Link to={`/detail-clinic/${clinic.id}`} key={clinic.id}>
+                        <div className="content">
+                          <div
+                            className="img"
+                            style={{
+                              backgroundImage: `url(${imageBase64})`,
+                              backgroundPosition: 'center',
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                            }}
+                          ></div>
+                          <h3>{clinic.name}</h3>
+                        </div>
+                      </Link>
+                    )
+                  })}
               </Slider>
             </div>
           </div>

@@ -10,6 +10,7 @@ const initialState = {
   payment: [],
   province: [],
   specialty: [],
+  clinic: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -90,6 +91,10 @@ const adminReducer = (state = initialState, action) => {
     // DOCTOR_SPECIALTY
     case actionTypes.GET_DOCTOR_SPECIALTY_SUCCESS:
       state.specialty = action.data
+      return { ...state }
+    // DOCTOR_CLINIC
+    case actionTypes.GET_DOCTOR_CLINIC_SUCCESS:
+      state.clinic = action.data
       return { ...state }
     default:
       console.log('Hello default')

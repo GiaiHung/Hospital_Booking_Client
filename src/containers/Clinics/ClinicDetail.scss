@@ -1,0 +1,30 @@
+.cd-container {
+  margin: 0 50px;
+  margin-top: 80px;
+
+  .cd-intro {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    .cd-left {
+      width: 20%;
+      height: 150px;
+      border-radius: 0%;
+    }
+    .cd-right {
+      width: 80%;
+      h4 {
+        font-weight: 600;
+        font-size: 28px;
+      }
+      p {
+        color: #8b7c7c;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .cd-detail {
+    margin-top: 20px;
+  }
+}

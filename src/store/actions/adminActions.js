@@ -104,6 +104,22 @@ const getDoctorSpecialty = () => {
   }
 }
 
+const getDoctorClinic = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.get('/api/v1/clinic')
+      if (res.data.status === 'success') {
+        dispatch({
+          type: actionTypes.GET_DOCTOR_CLINIC_SUCCESS,
+          data: res.data.data,
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 // CREATE
 const createUser = (data) => {
   return async (dispatch, getState) => {
@@ -176,4 +192,5 @@ export {
   editUser,
   deleteUser,
   getDoctorSpecialty,
+  getDoctorClinic,
 }

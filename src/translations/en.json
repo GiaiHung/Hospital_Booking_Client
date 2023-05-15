@@ -122,5 +122,18 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     }
+  },
+  "manage-specialty": {
+    "title": "Create specialty",
+    "name": "Specialty name",
+    "image": "Specialty image",
+    "save": "Save"
+  },
+  "manage-clinic": {
+    "title": "Create clinic",
+    "address": "Address",
+    "name": "clinic name",
+    "image": "clinic image",
+    "save": "Save"
   }
 }
