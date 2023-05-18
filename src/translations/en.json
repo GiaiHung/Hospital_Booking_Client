@@ -56,7 +56,8 @@
     },
     "doctor": {
       "manage-user": "Manage user",
-      "manage-schedule": "Manage schedule"
+      "manage-schedule": "Manage schedule",
+      "manage-patient": "Manage patient"
     }
   },
   "manage-user": {
@@ -135,5 +136,15 @@
     "name": "clinic name",
     "image": "clinic image",
     "save": "Save"
+  },
+  "manage-patient": {
+    "title": "Patient manage",
+    "select-date": "Select date",
+    "time": "Time",
+    "name": "Name",
+    "address": "Address",
+    "gender": "Gender",
+    "actions": "Actions",
+    "confirm": "Confirm"
   }
 }

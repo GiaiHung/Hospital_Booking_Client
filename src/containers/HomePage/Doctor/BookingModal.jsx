@@ -114,14 +114,16 @@ class BookingModal extends Component {
   handleConfirmBooking = async () => {
     const { name, email, timeType, gender, address, phone, reasons, doctorId } =
       this.state
-    const date = this.convertTimeBooking()
+    const { date } = this.props.scheduleData
+    const formattedDate = this.convertTimeBooking()
     const res = await axios.post('/api/v1/patient/booking-appointment', {
       name,
       email,
       doctorId,
       doctorName: this.props.doctorName,
       timeType,
-      date,
+      date: formattedDate,
+      time: date,
       gender: gender.value,
       address,
       phone,

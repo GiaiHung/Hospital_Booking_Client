@@ -61,6 +61,10 @@ class OutstandingDoctor extends Component {
                       this.props.language === 'vi'
                         ? doctor.lastName + ' ' + doctor.firstName
                         : doctor.firstName + ' ' + doctor.lastName
+                    const position =
+                      this.props.language === 'vi'
+                        ? doctor.positionData.value_vi
+                        : doctor.positionData.value_en
                     return (
                       <div className="content padding" key={index}>
                         <div
@@ -77,12 +81,9 @@ class OutstandingDoctor extends Component {
                             }}
                           ></div>
                           <h3>
-                            {fullName}{' '}
-                            {this.props.language === 'vi'
-                              ? doctor.positionData.value_vi
-                              : doctor.positionData.value_en}
+                            {fullName} {position}
                           </h3>
-                          <p>Cơ xương khớp</p>
+                          <p>{doctor.Doctor_Info.specialtyData.name}</p>
                         </div>
                       </div>
                     )

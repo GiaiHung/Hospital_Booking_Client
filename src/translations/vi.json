@@ -56,7 +56,8 @@
     },
     "doctor": {
       "manage-user": "Người dùng",
-      "manage-schedule": "Quản lý lịch khám"
+      "manage-schedule": "Quản lý lịch khám",
+      "manage-patient": "Quản lý bệnh nhân"
     }
   },
   "manage-user": {
@@ -135,5 +136,15 @@
     "name": "Tên phòng khám",
     "image": "Ảnh phòng khám",
     "save": "Lưu"
+  },
+  "manage-patient": {
+    "title": "Quản lý bệnh nhân",
+    "select-date": "Chọn ngày",
+    "time": "Thời gian",
+    "name": "Họ và tên",
+    "address": "Địa chỉ",
+    "gender": "Giới tính",
+    "actions": "Hành động",
+    "confirm": "Xác nhận"
   }
 }
